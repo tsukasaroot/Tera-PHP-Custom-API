@@ -1,10 +1,5 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	echo 'nope';
-	die();
-}
-
 if (!DEFINED('SQL'))
 	define('SQL', 'class/SQL.php');
 
@@ -17,6 +12,12 @@ switch ($request) {
 		break;
 	case 'GetAccountInfoByUserNo':
 		require 'controllers/GetAccountInfoByUserNo.php';
+		break;
+	case 'api/ServiceTest':
+		require 'controllers/ServiceTest.php';
+		break;
+	case 'systemApi/RequestAPIServerStatusAvailable':
+		require 'controllers/RequestAPIServerStatusAvailable.php';
 		break;
 	default:
 		http_response_code(404);
