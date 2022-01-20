@@ -14,17 +14,17 @@ class UrlMappings {
         "404"(view:'/notFound')
 
         //remrked by Michel 2020-04-26 Used for ArbiterGW
-        get "/systemApi/RequestAPIServerStatusAvailable"(controller: 'System', action:'RequestAPIServerStatusAvailable')
-        get "/api/ServiceTest"(controller: 'System', action:'ServiceTest')
-        post "/api/GetServerPermission"(controller: 'System', action:'GetServerPermission')
-        post "/api/ServerDown"(controller: 'System', action:'ServerDown')
+        get "/systemApi/RequestAPIServerStatusAvailable"(controller: 'System', action:'RequestAPIServerStatusAvailable') //done
+        get "/api/ServiceTest"(controller: 'System', action:'ServiceTest') //done
+        post "/api/GetServerPermission"(controller: 'System', action:'GetServerPermission') //done
+        post "/api/ServerDown"(controller: 'System', action:'ServerDown') //done
 
         //remrked by Michel 2020-04-26 Used for Client
         //post "/tera/TeraItemSend"(controller: 'Account', action:'tempTeraItemSend')
-        post "/tera/GetAccountInfoByUserNo"(controller: 'Account', action:'GetAccountInfoByUserNoJSON')
-        post "/tera/LauncherLoginAction"(controller: 'Account', action:'PortalLoginJSON')
-        post "/authApi/GameAuthenticationLogin"(controller: 'Account', action:'GameLoginJSON')
-        post "/api/GetUserInfo"(controller: 'Account', action:'GetUserInfo')
+        post "/tera/GetAccountInfoByUserNo"(controller: 'Account', action:'GetAccountInfoByUserNoJSON') //done
+        post "/tera/LauncherLoginAction"(controller: 'Account', action:'PortalLoginJSON') //done, maybe regression on authKey
+        post "/authApi/GameAuthenticationLogin"(controller: 'Account', action:'GameLoginJSON') //done
+        post "/api/GetUserInfo"(controller: 'Account', action:'GetUserInfo') //done
         post "/api/EnterGame"(controller: 'Account', action:'EnterGame')
         post "/api/LeaveGame"(controller: 'Account', action:'LeaveGame')
         post "/api/CreateChar"(controller: 'Account', action:'CreateChar')
