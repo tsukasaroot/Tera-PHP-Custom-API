@@ -15,13 +15,12 @@ if ($_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4
 } else {
 	if ($_POST['userID'] && $_POST['password']) {
 		$logfile = '';
-		$sql = new SQL();
 		$userName = $_POST['userID'];
 		$password = $_POST['password'];
 		$data = [];
 		$msg = 'success';
 		
-		$accountList = $sql->conn->query("SELECT * FROM accountinfo WHERE userName = '$userName'");
+		$accountList = $conn->query("SELECT * FROM accountinfo WHERE userName = '$userName'");
 		if ($accountList->num_rows != 1) {
 			$msg = "Account doesn't exist";
 			$returnCode = 50000;
@@ -38,8 +37,8 @@ if ($_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4
 			} else {
 				$newAuthKey = uniqid(more_entropy: true);
 				$msg = $newAuthKey;
-				$sql_return = $sql->conn->query("UPDATE accountinfo SET authKey = '$newAuthKey' WHERE userName = '$userName'");
-				if ($sql->conn->affected_rows <= 0) {
+				$sql_return = $conn->query("UPDATE accountinfo SET authKey = '$newAuthKey' WHERE userName = '$userName'");
+				if ($conn->affected_rows <= 0) {
 					$msg = "Error occurred with auth token";
 					$returnCode = 50811;
 				}
@@ -69,7 +68,7 @@ if ($_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4
 				$data['UserStatus'] = $obj;
 				$data['phoneLock'] = false;
 				
-				$logfile = "$userName is connecting now " . date('Y-m-d h:m:s' . "\n");
+				//$logfile = "$userName is connecting now " . date('Y-m-d h:m:s' . "\n");
 			}
 		}
 	}
@@ -77,7 +76,7 @@ if ($_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4
 	if ($returnCode > 0)
 		$data['msg'] = $msg;
 	
-	file_put_contents('logs.txt', $logfile, FILE_APPEND);
+	//file_put_contents('logs.txt', $logfile, FILE_APPEND);
 	
 	header('Content-Length: ' . strlen(json_encode($data)));
 	header('Content-Type: application/json; charset=utf-8');
