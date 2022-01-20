@@ -10,8 +10,8 @@ TeraAPI/.gradle/5.1.1/executionHistory/executionHistory.bin
 .idea/php.xml
 .idea/modules.xml
 .idea/vcs.xml
-phpapi/.env
-phpapi/logs.txt
+phpapi/class/.env
+phpapi/controllers/logs.txt
 TeraAPI/.gradle/5.1.1/executionHistory/executionHistory.bin
 TeraAPI/.gradle/5.1.1/fileHashes/fileHashes.bin
 TeraAPI/.idea/modules.xml
