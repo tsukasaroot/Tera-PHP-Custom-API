@@ -9,6 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $res = print_r($_POST, true);
 
-file_put_contents('logs.txt', $res);
+file_put_contents('logs.txt', $res, FILE_APPEND);
 
 $returnCode = 0;

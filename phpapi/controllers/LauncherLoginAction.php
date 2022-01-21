@@ -78,7 +78,7 @@ if ($_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4
 	if ($returnCode > 0)
 		$data['msg'] = $msg;
 	
-	file_put_contents('logs.txt', $logfile);
+	file_put_contents('logs.txt', $logfile, FILE_APPEND);
 	
 	header('Content-Length: ' . strlen(json_encode($data)));
 	header('Content-Type: application/json; charset=utf-8');

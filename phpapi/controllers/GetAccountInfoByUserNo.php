@@ -39,10 +39,10 @@ if (!$_POST['id']) {
 	}
 }
 
-$info = "$accountInfo" . print_r($_POST, true);
+$logfile = "$accountInfo" . print_r($_POST, true);
 
 if (isset($logfile))
-	file_put_contents('logs.txt', $info);
+	file_put_contents('logs.txt', $logfile, FILE_APPEND);
 
 if ($returnCode > 0)
 	$data['msg'] = $msg;
