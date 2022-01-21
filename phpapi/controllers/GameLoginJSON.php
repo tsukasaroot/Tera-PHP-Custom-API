@@ -19,12 +19,11 @@ if (count($_POST) !== 2) {
 	die();
 }
 
-$sql = new SQL();
 $msg = 'success';
 $accountList = [];
 $id = $_POST['userNo'];
 $q = "SELECT * FROM accountinfo WHERE accountDBID = $id";
-$accountList = $sql->conn->query($q);
+$accountList = $conn->query($q);
 
 if ($accountList->num_rows <= 0) {
 	$msg = 'Invalid login request';

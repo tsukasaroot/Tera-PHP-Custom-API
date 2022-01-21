@@ -1,5 +1,7 @@
 <?php
 
+// Step 2 from web call launcher
+
 require_once(SQL);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -14,16 +16,16 @@ if (!$_POST['id']) {
 	$msg = "ID error";
 } else {
 	$id = $_POST['id'];
-	$sql = new SQL();
 	$accountList = [];
 	$q = "SELECT * FROM accountinfo WHERE accountDBID = $id";
-	$accountList = $sql->conn->query($q);
+	$accountList = $conn->query($q);
 	
 	if ($accountList->num_rows != 1) {
 		$msg = "Account doesn't exist";
 		$returnCode = 50000;
 	} else {
 		$accountInfo = $accountList->fetch_object();
+		$accountList->close();
 		$characterCount = match ($accountInfo->charCount) {
 			1 => '0|2800,1',
 			2 => '0|2800,2',

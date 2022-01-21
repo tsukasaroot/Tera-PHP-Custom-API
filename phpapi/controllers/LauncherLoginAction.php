@@ -1,5 +1,7 @@
 <?php
 
+// Step 1, logs the user in the launcher
+
 require_once(SQL);
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

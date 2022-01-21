@@ -24,10 +24,9 @@ if (!$_POST['user_srl']) {
 	$returnCode = 15000;
 } else {
 	$accountList = [];
-	$sql = new SQL();
 	$id = $_POST['user_srl'];
 	$q = "SELECT * FROM accountinfo WHERE accountDBID = $id";
-	$accountList = $sql->conn->query($q);
+	$accountList = $conn->query($q);
 	
 	if ($accountList->num_rows <= 0) {
 		$msg = 'Invalid login request';
@@ -37,7 +36,7 @@ if (!$_POST['user_srl']) {
 		$accountList->close();
 		$charCount = "0|2800," . $accountInfo->charCount . '|';
 		$q = "SELECT * FROM account_benefits WHERE accountDBID = $id";
-		$result = $sql->conn->query($q);
+		$result = $conn->query($q);
 		$benefits = [];
 		
 		$i = 0;
