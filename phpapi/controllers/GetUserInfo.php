@@ -9,16 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $returnCode = 0;
 
-if (count($_POST) !== 1) {
-	$data['Return'] = false;
-	$data['ReturnCode'] = 50500;
-	$data['msg'] = 'Parameter error';
-	header('Content-Length: ' . strlen(json_encode($data)));
-	header('Content-Type: application/json; charset=utf-8');
-	echo json_encode($data);
-	die();
-}
-
 if (!$_POST['user_srl']) {
 	$msg = 'id=null';
 	$returnCode = 15000;

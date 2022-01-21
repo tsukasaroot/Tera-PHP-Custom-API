@@ -9,16 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $returnCode = 0;
 
-if (count($_POST) !== 2) {
-	$data['Return'] = false;
-	$data['ReturnCode'] = 50500;
-	$data['msg'] = 'Parameter error';
-	header('Content-Length: ' . strlen(json_encode($data)));
-	header('Content-Type: application/json; charset=utf-8');
-	echo json_encode($data);
-	die();
-}
-
 $msg = 'success';
 $accountList = [];
 $id = $_POST['userNo'];
