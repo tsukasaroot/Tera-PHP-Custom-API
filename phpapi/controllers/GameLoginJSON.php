@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $json = file_get_contents('php://input');
 if ($json) {
-	$_POST = json_decode($json);
+	$json = json_decode($json);
 	foreach ($json as $k => $v) {
 		$_POST[$k] = $v;
 	}
