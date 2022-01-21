@@ -39,7 +39,7 @@ if (!$_POST['id']) {
 	}
 }
 
-$logfile = "$accountInfo" . print_r($_POST, true);
+$logfile = $accountInfo->userName . print_r($_POST, true);
 
 if (isset($logfile))
 	file_put_contents('logs.txt', $logfile, FILE_APPEND);
