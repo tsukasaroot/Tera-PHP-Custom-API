@@ -7,6 +7,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	die();
 }
 
+// Takes raw data from the request
+$json = file_get_contents('php://input');
+
+// Converts it into a PHP object
+$_POST = json_decode($json);
+
 $returnCode = 0;
 
 $res = print_r($_POST, true);
