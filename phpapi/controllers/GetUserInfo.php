@@ -45,9 +45,9 @@ if (!$_POST['user_srl']) {
 		}
 		
 		$data['vip_pub_exp'] = 0;
-		$data['permission'] = $accountInfo->isBlocked;
+		$data['permission'] = intval($accountInfo->isBlocked);
 		$data['result_code'] = $returnCode;
-		$data['privilege'] = $accountInfo->privilege;
+		$data['privilege'] = intval($accountInfo->privilege);
 		$data['char_count_info'] = $charCount;
 		$data['benefit'] = $benefits;
 	}
