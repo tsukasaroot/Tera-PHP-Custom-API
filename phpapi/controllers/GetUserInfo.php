@@ -7,6 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	die();
 }
 
+$json = file_get_contents('php://input');
+if ($json) {
+	$json = json_decode($json);
+	foreach ($json as $k => $v) {
+		$_POST[$k] = $v;
+	}
+}
+
 $returnCode = 0;
 
 if (!$_POST['user_srl']) {
