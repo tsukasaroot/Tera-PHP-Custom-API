@@ -36,12 +36,13 @@ if (!$_POST['id']) {
 		$data['PassitemInfo'] = false;
 		$data['Permission'] = $accountInfo->isBlocked;
 		$data['VipitemInfo'] = false;
-		
-		$logfile = "$accountInfo->userName getting info " . date('Y-m-d h:m:s' . "\n");
 	}
 }
+
+$info = "$accountInfo" . print_r($_POST, true);
+
 if (isset($logfile))
-	file_put_contents('logs.txt', $logfile, FILE_APPEND);
+	file_put_contents('logs.txt', $info);
 
 if ($returnCode > 0)
 	$data['msg'] = $msg;
