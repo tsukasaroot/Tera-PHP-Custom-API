@@ -60,6 +60,9 @@ if (!$_POST['user_srl']) {
 	}
 }
 
+$res = print_r($_POST, true);
+file_put_contents('logs.txt', $res, FILE_APPEND);
+
 if ($returnCode > 0)
 	$data['msg'] = $msg;
 header('Content-Length: ' . strlen(json_encode($data)));
