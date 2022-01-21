@@ -3,18 +3,21 @@
 if (!DEFINED('SQL'))
 	define('SQL', 'class/SQL.php');
 
+if (!DEFINED('JSON'))
+	define('JSON', 'class/JSON.php');
+
 $request = $_SERVER['REQUEST_URI'];
 $request = substr($request, 1);
 
 switch ($request) {
 	// Used by Client
-	case 'api/GetUserInfo':
+	case 'api/GetUserInfo': //optimized fetch
 		require 'controllers/GetUserInfo.php';
 		break;
-	case 'authApi/GameAuthenticationLogin':
+	case 'authApi/GameAuthenticationLogin': //optimized fetch
 		require 'controllers/GameLoginJSON.php';
 		break;
-	case 'tera/LauncherLoginAction':
+	case 'tera/LauncherLoginAction': //optimized fetch
 		require 'controllers/LauncherLoginAction.php';
 		break;
 	case 'tera/GetAccountInfoByUserNo':
@@ -23,7 +26,10 @@ switch ($request) {
 	case 'api/EnterGame':
 		require 'controllers/EnterGame.php';
 		break;
-		//Used by ArbiterGw
+	case 'api/LeaveGame':
+		require 'controllers/LeaveGame.php';
+		break;
+	//Used by ArbiterGw
 	case 'api/ServiceTest':
 		require 'controllers/ServiceTest.php';
 		break;

@@ -5,9 +5,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 	die();
 }
 
-$data['Return'] = true;
-header('Content-Length: ' . strlen(json_encode($data)));
-header('Content-Type: application/json; charset=utf-8');
-echo json_encode($data);
+require_once(JSON);
 
-file_put_contents('logs.txt', "RequestAPIServerStatusAvailable\n", FILE_APPEND);
+$data['Return'] = true;
+
+send_json($data);
