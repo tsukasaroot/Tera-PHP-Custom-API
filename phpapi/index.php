@@ -20,6 +20,9 @@ switch ($request) {
 	case 'tera/GetAccountInfoByUserNo':
 		require 'controllers/GetAccountInfoByUserNo.php';
 		break;
+	case 'api/EnterGame':
+		require 'controllers/EnterGame.php';
+		break;
 		//Used by ArbiterGw
 	case 'api/ServiceTest':
 		require 'controllers/ServiceTest.php';
