@@ -44,17 +44,12 @@ if (!$_POST['user_srl']) {
 			$i++;
 		}
 		
-		$data['last_connected_server'] = null;
-		$data['last_play_time'] = null;
-		$data['logout_time_diff'] = null;
 		$data['vip_pub_exp'] = 0;
 		$data['permission'] = $accountInfo->isBlocked;
 		$data['result_code'] = $returnCode;
 		$data['privilege'] = $accountInfo->privilege;
 		$data['char_count_info'] = $charCount;
 		$data['benefit'] = $benefits;
-		
-		//$log = print_r($benefits, true);
 	}
 }
 
