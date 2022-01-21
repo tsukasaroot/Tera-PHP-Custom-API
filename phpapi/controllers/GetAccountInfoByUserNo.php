@@ -32,10 +32,10 @@ if (!$_POST['id']) {
 			3 => '0|2800,3',
 			default => '0|2800,0'
 		};
-		$data['Charcountstr'] = $characterCount . '|';
-		$data['PassitemInfo'] = false;
-		$data['Permission'] = $accountInfo->isBlocked;
-		$data['VipitemInfo'] = false;
+		$data['charcountstr'] = $characterCount . '|';
+		$data['passitemInfo'] = false;
+		$data['permission'] = $accountInfo->isBlocked;
+		$data['vipitemInfo'] = false;
 	}
 }
 
