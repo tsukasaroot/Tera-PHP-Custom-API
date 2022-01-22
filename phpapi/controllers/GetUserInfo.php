@@ -14,9 +14,11 @@ $returnCode = 0;
 $data = [];
 $msg = '';
 
+file_put_contents('logs.txt', 'Tring GetUserInfo');
+
 if (!isset($_POST['user_srl']) || !isset($_POST['server_id']) ||
 	!isset($_POST['ip']) || !isset($_POST['serviceCode'])) {
-	$returnCode = 0;
+	$returnCode = 2;
 	$msg = 'user_srl=' . isset($_POST['user_srl']) . '&server_id=' . isset($_POST['server_id'])
 	. "&ip=" . isset($_POST['ip']) . "&serviceCode=" . isset($_POST['serviceCode']);
 }
@@ -56,6 +58,8 @@ if (!$_POST['user_srl']) {
 		$data['benefit'] = $benefits;
 	}
 }
+
+file_put_contents('logs.txt', print_r($data, true));
 
 if ($returnCode > 0)
 	$data['msg'] = $msg;

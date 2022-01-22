@@ -7,6 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 	die();
 }
 
+file_put_contents('logs.txt', 'Tring GetAccountInfoByUserNo');
+
 require_once(SQL);
 require_once(JSON);
 
@@ -43,5 +45,7 @@ if (!isset($_POST['id'])) {
 
 if ($returnCode > 0)
 	$data['msg'] = $msg;
+
+file_put_contents('logs.txt', print_r($data, true));
 
 send_json($data);
