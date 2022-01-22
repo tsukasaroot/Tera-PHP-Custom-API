@@ -52,7 +52,7 @@ switch ($request) {
 		require 'controllers/Arbiter/api/ModifyChar.php';
 		break;
 	case 'api/UseChronoScroll':
-		require '';
+		require 'controllers/Arbiter/api/UseChronoScroll.php';
 		break;
 	default:
 		http_response_code(404);
