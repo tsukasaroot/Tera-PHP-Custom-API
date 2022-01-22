@@ -45,7 +45,7 @@ if (!$_POST['user_srl']) {
 		
 		$i = 0;
 		while ($benefit = $result->fetch_row()) {
-			$benefits[$i][] = $benefit[1];
+			$benefits[$i][] = intval($benefit[1]);
 			$benefits[$i][] = $benefit[2] - time();
 			$i++;
 		}
