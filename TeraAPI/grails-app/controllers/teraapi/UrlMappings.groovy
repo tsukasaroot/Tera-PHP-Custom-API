@@ -25,7 +25,7 @@ class UrlMappings {
         post "/tera/LauncherLoginAction"(controller: 'Account', action:'PortalLoginJSON') //done, maybe regression on authKey
         post "/authApi/GameAuthenticationLogin"(controller: 'Account', action:'GameLoginJSON') //done
         post "/api/GetUserInfo"(controller: 'Account', action:'GetUserInfo') //done
-        post "/api/EnterGame"(controller: 'Account', action:'EnterGame')
+        post "/api/EnterGame"(controller: 'Account', action:'EnterGame') //done
         post "/api/LeaveGame"(controller: 'Account', action:'LeaveGame')
         post "/api/CreateChar"(controller: 'Account', action:'CreateChar')
         post "/api/DeleteChar"(controller: 'Account', action:'DeleteChar')
