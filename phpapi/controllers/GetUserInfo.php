@@ -16,7 +16,7 @@ $msg = '';
 
 if (!isset($_POST['user_srl']) || !isset($_POST['server_id']) ||
 	!isset($_POST['ip']) || !isset($_POST['serviceCode'])) {
-	$returnCode = 2;
+	$returnCode = 0;
 	$msg = 'user_srl=' . isset($_POST['user_srl']) . '&server_id=' . isset($_POST['server_id'])
 	. "&ip=" . isset($_POST['ip']) . "&serviceCode=" . isset($_POST['serviceCode']);
 }
