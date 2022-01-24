@@ -1,1 +1,0 @@
-grailsw.bat run-app --port=8080
