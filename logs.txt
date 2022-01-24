@@ -1,0 +1,7 @@
+Array
+(
+    [charcountstr] => 0|2800,0|
+    [passitemInfo] => 
+    [permission] => 0
+    [vipitemInfo] => 
+)
