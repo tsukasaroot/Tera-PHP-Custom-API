@@ -8,8 +8,45 @@ use stdClass;
 
 class teraController
 {
-	public function __construct()
+	public function getAccountInfoByUserNo()
 	{
+		$returnCode = 0;
+		$data = [];
+		
+		if (!isset($_POST['id'])) {
+			$returnCode = 2;
+			$msg = "ID error";
+		} else {
+			$id = $_POST['id'];
+			$accountList = [];
+			$q = "SELECT charCount,isBlocked  FROM accountinfo WHERE accountDBID = $id";
+			$accountList = SQL::query($q);
+			
+			if ($accountList[1] != 1) {
+				$msg = "Account doesn't exist";
+				$returnCode = 50000;
+			} else {
+				$accountInfo = $accountList[0]->fetch_assoc();
+				$accountList[0]->close();
+				$characterCount = match ($accountInfo['charCount']) {
+					1 => '0|2800,1',
+					2 => '0|2800,2',
+					3 => '0|2800,3',
+					default => '0|2800,0'
+				};
+				$data['charcountstr'] = $characterCount . '|';
+				$data['passitemInfo'] = false;
+				$data['permission'] = $accountInfo['isBlocked'];
+				$data['vipitemInfo'] = false;
+			}
+		}
+		
+		if ($returnCode > 0)
+			$data['msg'] = $msg;
+		
+		file_put_contents('logs.txt', print_r($data, true));
+		
+		JSON::send_json($data);
 	}
 	
 	public function login()

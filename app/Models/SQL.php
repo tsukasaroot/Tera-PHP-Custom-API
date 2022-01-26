@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use mysqli;
-
 class SQL
 {
 	public static function query(string $query): array|null
 	{
 		$env = parse_ini_file('.env');
 		
-		$conn = new mysqli($env['host'], $env['user'], $env['pwd'], $env['db']);
+		$conn = new \mysqli($env['host'], $env['user'], $env['pwd'], $env['db']);
 		if ($conn->connect_error) {
 			$conn->close();
 			die("Connection failed: ");
@@ -21,10 +19,3 @@ class SQL
 		return [ $result, $rows];
 	}
 }
-
-/*$env = parse_ini_file('.env');
-$conn = new mysqli($env['host'], $env['user'], $env['pwd'], $env['db']);
-if ($conn->connect_error) {
-	$conn->close();
-	die("Connection failed: ");
-}*/

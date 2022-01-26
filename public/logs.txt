@@ -1,0 +1,11 @@
+Array
+(
+    [msg] => success
+    [isUsedOTP] => 
+    [Return] => 1
+    [ReturnCode] => 0
+    [UserID] => 16
+    [AuthKey] => 61f1de52d2f032.10348717
+    [UserNo] => 16
+    [UserType] => PURCHASE
+)
