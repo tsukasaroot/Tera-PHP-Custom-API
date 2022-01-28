@@ -1,5 +1,0 @@
-Array
-(
-    [user_srl] => 16
-    [serviceCode] => 2800
-)
