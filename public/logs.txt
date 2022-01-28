@@ -1,24 +1,5 @@
 Array
 (
-    [vip_pub_exp] => 0
-    [permission] => 0
-    [result_code] => 2
-    [privilege] => 0
-    [char_count_info] => 0|2800,0|
-    [benefit] => Array
-        (
-            [0] => Array
-                (
-                    [0] => 334
-                    [1] => 326799635
-                )
-
-            [1] => Array
-                (
-                    [0] => 334
-                    [1] => 326799635
-                )
-
-        )
-
+    [user_srl] => 16
+    [serviceCode] => 2800
 )
