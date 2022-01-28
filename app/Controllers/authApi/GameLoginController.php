@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\authApi;
+namespace App\Controllers\AuthApi;
 
 use App\Models\JSON;
 use App\Models\SQL;
