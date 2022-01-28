@@ -43,6 +43,8 @@ class Model
 			$buildQuery = http_build_query($left, null, ',');
 			$buildQuery = str_replace(':', '=', $buildQuery);
 			$buildQuery = str_replace(',', ' OR ', $buildQuery);
+			$buildQuery = str_replace('%22', '"', $buildQuery);
+			$buildQuery = str_replace('%27', "'", $buildQuery);
 			
 			if (str_contains($this->query, 'WHERE'))
 				$this->query .= ' OR ' . $buildQuery . ' ';
@@ -61,10 +63,10 @@ class Model
 				->fetch_all() ?? false;
 	}
 	
-	public function get_row(): object|array|bool
+	public function get_row(): object|array|null
 	{
 		$rs = $this->sql->query($this->query);
-		return $rs->fetch_assoc() ?? false;
+		return $rs?->fetch_assoc();
 	}
 	
 	public function value(): string

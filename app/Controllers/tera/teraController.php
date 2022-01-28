@@ -21,10 +21,10 @@ class teraController
 			$user = new Users();
 			$id = $_POST['id'];
 			
-			$accountInfo = $user->select([ 'charCount, isBlocked' ])
-				->where([ 'accountDBID' => $id ])
+			$accountInfo = $user->select(['charCount, isBlocked'])
+				->where(['accountDBID' => $id])
 				->get_row();
-
+			
 			if (!$accountInfo) {
 				$msg = "Account doesn't exist";
 				$returnCode = 50000;
@@ -59,19 +59,26 @@ class teraController
 			$returnCode = 58007;
 			$msg = 'invalid encoded parameter(base64)';
 		} else {
+			$user = new Users();
 			if ($_POST['userID'] && $_POST['password']) {
 				$logfile = '';
 				$userName = $_POST['userID'];
 				$password = $_POST['password'];
 				$msg = 'success';
 				
-				$accountList = SQL::query("SELECT passWord, charCount, isBlocked, accountDBID FROM accountinfo WHERE userName = '$userName'");
-				if ($accountList[1] != 1) {
+				$accountInfo = $user->select([
+					'passWord',
+					'charCount',
+					'isBlocked',
+					'accountDBID'
+				])
+					->where(['userName' => "'$userName'" ])
+					->get_row();
+				
+				if (!$accountInfo) {
 					$msg = "Account doesn't exist";
 					$returnCode = 50000;
 				} else {
-					$accountInfo = $accountList[0]->fetch_assoc();
-					$accountList[0]->close();
 					$secret_salt = 'TERAISNOTTHATGOODLMAO';
 					$pwd_salt = $secret_salt . $password;
 					$pass_sha512 = hash('sha512', $pwd_salt);
@@ -82,11 +89,14 @@ class teraController
 					} else {
 						$newAuthKey = uniqid(more_entropy: true);
 						$msg = $newAuthKey;
-						$sql_return = SQL::query("UPDATE accountinfo SET authKey = '$newAuthKey' WHERE userName = '$userName'");
-						if ($sql_return[1] <= 0) {
+						
+						//$authKeySuccess = $user->update();
+						
+						/*$sql_return = SQL::query("UPDATE accountinfo SET authKey = '$newAuthKey' WHERE userName = '$userName'");
+						if ($sql_return[1] !=) {
 							$msg = "Error occurred with auth token";
 							$returnCode = 50811;
-						}
+						}*/
 						
 						if ($returnCode === 0) {
 							$characterCount = match ($accountInfo['charCount']) {
