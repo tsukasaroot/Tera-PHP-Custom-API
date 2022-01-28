@@ -4,6 +4,7 @@ namespace App\Controllers\Tera;
 
 use App\Models\JSON;
 use App\Models\SQL;
+use App\Models\Users as Users;
 use stdClass;
 
 class teraController
@@ -17,17 +18,17 @@ class teraController
 			$returnCode = 2;
 			$msg = "ID error";
 		} else {
+			$user = new Users();
 			$id = $_POST['id'];
-			$accountList = [];
-			$q = "SELECT charCount,isBlocked  FROM accountinfo WHERE accountDBID = $id";
-			$accountList = SQL::query($q);
 			
-			if ($accountList[1] != 1) {
+			$accountInfo = $user->select([ 'charCount, isBlocked' ])
+				->where([ 'accountDBID' => $id ])
+				->get_row();
+
+			if (!$accountInfo) {
 				$msg = "Account doesn't exist";
 				$returnCode = 50000;
 			} else {
-				$accountInfo = $accountList[0]->fetch_assoc();
-				$accountList[0]->close();
 				$characterCount = match ($accountInfo['charCount']) {
 					1 => '0|2800,1',
 					2 => '0|2800,2',
