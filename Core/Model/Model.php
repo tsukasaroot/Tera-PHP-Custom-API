@@ -73,4 +73,21 @@ class Model
 	{
 		return $this->sql_result;
 	}
+	
+	public function update(array|string $args): static
+	{
+		$this->query = "UPDATE $this->table SET ";
+		if (is_array($args)) {
+		
+		} else {
+			$this->query .= $args;
+		}
+		return $this;
+	}
+	
+	public function execute(): bool
+	{
+		$this->sql->query($this->query);
+		return true;
+	}
 }

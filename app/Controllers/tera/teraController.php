@@ -88,15 +88,24 @@ class teraController
 						$returnCode = 50015;
 					} else {
 						$newAuthKey = uniqid(more_entropy: true);
-						$msg = $newAuthKey;
 						
-						//$authKeySuccess = $user->update();
+						$accountInfo = $user->select([
+							'passWord',
+							'charCount',
+							'isBlocked',
+							'accountDBID'
+						])
+							->where(['userName' => "'$userName'" ])
+							->get_row();
 						
-						/*$sql_return = SQL::query("UPDATE accountinfo SET authKey = '$newAuthKey' WHERE userName = '$userName'");
-						if ($sql_return[1] !=) {
+						$authKeySuccess = $user->update("authKey = '$newAuthKey'")
+						->where([ 'userName' => $userName ])
+						->execute();
+						
+						if (!$authKeySuccess) {
 							$msg = "Error occurred with auth token";
 							$returnCode = 50811;
-						}*/
+						}
 						
 						if ($returnCode === 0) {
 							$characterCount = match ($accountInfo['charCount']) {
