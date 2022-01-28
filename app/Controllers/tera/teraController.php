@@ -82,6 +82,7 @@ class teraController
 					$secret_salt = 'TERAISNOTTHATGOODLMAO';
 					$pwd_salt = $secret_salt . $password;
 					$pass_sha512 = hash('sha512', $pwd_salt);
+					$characterCount = 0;
 					
 					if ($pass_sha512 != $accountInfo['passWord']) {
 						$msg = 'Password not correct';
@@ -99,7 +100,7 @@ class teraController
 							->get_row();
 						
 						$authKeySuccess = $user->update("authKey = '$newAuthKey'")
-						->where([ 'userName' => $userName ])
+						->where([ 'userName' => "'$userName'" ])
 						->execute();
 						
 						if (!$authKeySuccess) {

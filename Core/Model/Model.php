@@ -80,14 +80,13 @@ class Model
 		if (is_array($args)) {
 		
 		} else {
-			$this->query .= $args;
+			$this->query .= $args . ' ';
 		}
 		return $this;
 	}
 	
 	public function execute(): bool
 	{
-		$this->sql->query($this->query);
-		return true;
+		return $this->sql->query($this->query);
 	}
 }
