@@ -1,19 +1,15 @@
 <?php
 
 namespace App\Controllers\Arbiter;
+use App\Controllers\Controller;
 
-use App\Models\JSON;
-use Core\Model\Model;
-
-class ArbiterApi
+class ArbiterApi extends Controller
 {
-	public function CreateChar()
+	public function CreateChar(): bool
 	{
 		$msg = '';
 		$result_code = 0;
 		$data = [];
-		
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
 		
 		file_put_contents('logs.txt', print_r($_POST, true));
 		
@@ -22,29 +18,29 @@ class ArbiterApi
 		
 		$data['result_code'] = $result_code;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
-	public function ModifyChar()
+	public function ModifyChar(): bool
 	{
-		$this->toReword();
+		return $this->response($this->toReword());
 	}
 	
-	public function DeleteChar()
+	public function DeleteChar(): bool
 	{
-		$this->toReword();
+		return $this->response($this->toReword());
 	}
 	
-	public function ServiceTest()
+	public function ServiceTest(): bool
 	{
 		$result_code = 0;
 		$data['server_time'] = time();
 		$data['result_code'] = $result_code;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
-	public function GetServerPermission()
+	public function GetServerPermission(): bool
 	{
 		$result_code = 0;
 		$permission = 0;
@@ -52,27 +48,25 @@ class ArbiterApi
 		$data['permission'] = $permission;
 		$data['result_code'] = $result_code;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
-	public function ServerDown()
+	public function ServerDown(): bool
 	{
 		$result_code = 0;
 		$data['result_code'] = $result_code;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
 	/**
 	 * @return void
 	 */
-	private function toReword(): void
+	private function toReword(): array
 	{
 		$msg = '';
 		$result_code = 0;
 		$data = [];
-		
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
 		
 		file_put_contents('logs.txt', print_r($_POST, true));
 		
@@ -80,7 +74,6 @@ class ArbiterApi
 			$data['msg'] = $msg;
 		
 		$data['result_code'] = $result_code;
-		
-		JSON::send_json($data);
+		return $data;
 	}
 }

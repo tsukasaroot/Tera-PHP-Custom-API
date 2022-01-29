@@ -1,7 +1,6 @@
 <?php
 
 namespace Core;
-
 class Kernel
 {
 	public static function web() {
@@ -9,6 +8,8 @@ class Kernel
 		$request = substr($request, 1);
 		
 		$GLOBALS['Http'] = $request;
+		
+		Http::receivedInput();
 		Routes::create();
 	}
 }

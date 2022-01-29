@@ -2,20 +2,20 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\JSON;
-class UserServerInteraction
+use App\Controllers\Controller;
+
+class UserServerInteraction extends Controller
 {
-	public function EnterGame()
+	public function EnterGame(): bool
 	{
 		$returnCode = 0;
 		$data['result_code'] = $returnCode;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
-	public function LeaveGame()
+	public function LeaveGame(): bool
 	{
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
 		$msg = '';
 		$result_code = 0;
 		
@@ -28,6 +28,6 @@ class UserServerInteraction
 		if ($result_code > 0)
 			$data['msg'] = $msg;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 }
