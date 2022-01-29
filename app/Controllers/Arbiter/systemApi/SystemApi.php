@@ -2,13 +2,13 @@
 
 namespace App\Controllers\Arbiter\systemApi;
 
-use App\Models\JSON;
-class SystemApi
+use App\Controllers\Controller;
+class SystemApi extends Controller
 {
-	function status()
+	function status(): bool
 	{
 		$data['Return'] = true;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 }

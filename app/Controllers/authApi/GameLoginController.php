@@ -2,15 +2,12 @@
 
 namespace App\Controllers\AuthApi;
 
-use App\Models\JSON;
+use App\Controllers\Controller;
 use App\Models\Users;
-
-class GameLoginController
+class GameLoginController extends Controller
 {
-	public function login()
+	public function login(): bool
 	{
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
-		
 		$returnCode = 0;
 		$data = [];
 		$accountInfo = [];
@@ -23,7 +20,7 @@ class GameLoginController
 			
 			$msg = 'success';
 			$id = $_POST['userNo'];
-			$accountInfo = $user->select('authKey')->where([ 'accountDBID' => $id ])->get_row();
+			$accountInfo = $user->select('authKey')->where(['accountDBID' => $id])->get_row();
 		}
 		
 		if ($returnCode === 0 && !$accountInfo) {
@@ -51,6 +48,6 @@ class GameLoginController
 		
 		file_put_contents('logs.txt', print_r($data, true));
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 }

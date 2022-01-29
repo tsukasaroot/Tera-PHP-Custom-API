@@ -2,13 +2,13 @@
 
 namespace App\Controllers\Tera;
 
-use App\Models\JSON;
+use App\Controllers\Controller;
 use App\Models\Users;
 use stdClass;
 
-class teraController
+class teraController extends Controller
 {
-	public function getAccountInfoByUserNo()
+	public function getAccountInfoByUserNo(): bool
 	{
 		$returnCode = 0;
 		$data = [];
@@ -46,10 +46,10 @@ class teraController
 		
 		file_put_contents('logs.txt', print_r($data, true));
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 	
-	public function login()
+	public function login(): bool
 	{
 		$returnCode = 0;
 		$data = [];
@@ -138,7 +138,7 @@ class teraController
 			if ($returnCode > 0)
 				$data['msg'] = $msg;
 			
-			JSON::send_json($data);
+			return $this->response($data);
 		}
 	}
 }

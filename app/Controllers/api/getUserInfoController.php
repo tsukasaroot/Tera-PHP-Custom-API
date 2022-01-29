@@ -2,16 +2,14 @@
 
 namespace App\Controllers\Api;
 
-use App\Models\JSON;
+use App\Controllers\Controller;
 use App\Models\Users;
 use App\Models\AccountBenefits;
 
-class getUserInfoController
+class getUserInfoController extends Controller
 {
-	public function info()
+	public function info(): bool
 	{
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
-		
 		$returnCode = 0;
 		$data = [];
 		$msg = '';
@@ -68,6 +66,6 @@ class getUserInfoController
 		if ($returnCode > 0)
 			$data['msg'] = $msg;
 		
-		JSON::send_json($data);
+		return $this->response($data);
 	}
 }
