@@ -10,8 +10,8 @@ class getUserInfoController extends Controller
 {
 	public function info(): bool
 	{
-		if (empty($_POST['user_srl']) || empty($_POST['server_id']) ||
-			empty($_POST['ip']) || empty($_POST['serviceCode'])) {
+		if (empty($this->request['user_srl']) || empty($this->request['server_id']) ||
+			empty($this->request['ip']) || empty($this->request['serviceCode'])) {
 			$data['returnCode'] = 15000;
 			$data['msg'] = 'user_srl=' . isset($_POST['user_srl']) . '&server_id=' . isset($_POST['server_id'])
 				. "&ip=" . isset($_POST['ip']) . "&serviceCode=" . isset($_POST['serviceCode']);
@@ -21,7 +21,7 @@ class getUserInfoController extends Controller
 		$user = new Users();
 		$benef = new AccountBenefits();
 		
-		$id = $_POST['user_srl'];
+		$id = $this->request['user_srl'];
 		
 		$accountInfo = $user->getUserInfo(['isBlocked', 'privilege', 'charCount'], 'accountDBID', $id);
 		

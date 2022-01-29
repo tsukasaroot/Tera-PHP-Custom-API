@@ -19,7 +19,7 @@ class UserServerInteraction extends Controller
 		$msg = '';
 		$result_code = 0;
 		
-		if (!isset($_POST['user_srl']) || !isset($_POST['serviceCode'])) {
+		if (!isset($this->request['user_srl']) || !isset($this->request['serviceCode'])) {
 			$result_code = 2;
 			$msg = 'Error with LeaveGame';
 		}
