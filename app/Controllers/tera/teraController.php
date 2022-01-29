@@ -15,6 +15,7 @@ class teraController extends Controller
 			$data['msg'] = "ID error";
 			return $this->response($data);
 		}
+		
 		$user = new Users();
 		$id = $_POST['id'];
 		
