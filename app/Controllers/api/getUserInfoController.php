@@ -3,7 +3,8 @@
 namespace App\Controllers\Api;
 
 use App\Models\JSON;
-use App\Models\SQL;
+use App\Models\Users;
+use App\Models\AccountBenefits;
 
 class getUserInfoController
 {
@@ -15,7 +16,7 @@ class getUserInfoController
 		$data = [];
 		$msg = '';
 		
-		file_put_contents('logs.txt', 'Tring GetUserInfo');
+		file_put_contents('logs.txt', 'Trying GetUserInfo');
 		
 		if (!isset($_POST['user_srl']) || !isset($_POST['server_id']) ||
 			!isset($_POST['ip']) || !isset($_POST['serviceCode'])) {
@@ -28,26 +29,28 @@ class getUserInfoController
 			$msg = 'id=null';
 			$returnCode = 15000;
 		} else {
-			$accountList = [];
+			$user = new Users();
+			$benef = new AccountBenefits();
+
 			$id = $_POST['user_srl'];
-			$q = "SELECT isBlocked, privilege, charCount FROM accountinfo WHERE accountDBID = $id";
-			$accountList = SQL::query($q);
+			$accountInfo = $user->select([ 'isBlocked', 'privilege', 'charCount' ])
+				->where([ 'accountDBID' => $id ])
+				->get_row();
 			
-			if ($accountList[1] <= 0) {
+			if ($accountInfo <= 0) {
 				$msg = 'Invalid login request';
 				$returnCode = 50000;
 			} else {
-				$accountInfo = $accountList[0]->fetch_assoc();
-				$accountList[0]->close();
 				$charCount = "0|2800," . $accountInfo['charCount'] . '|';
-				$q = "SELECT * FROM account_benefits WHERE accountDBID = $id";
-				$result = SQL::query($q);
+				$all_benefits = $benef->select()->where([ 'accountDBID' => $id ])
+					->get();
+				
 				$benefits = [];
 				
 				$i = 0;
-				while ($benefit = $result[0]->fetch_row()) {
-					$benefits[$i][] = intval($benefit[1]);
-					$benefits[$i][] = $benefit[2] - time();
+				while ($i < count($all_benefits)) {
+					$benefits[$i][] = intval($all_benefits[$i][1]);
+					$benefits[$i][] = $all_benefits[$i][2] - time();
 					$i++;
 				}
 				

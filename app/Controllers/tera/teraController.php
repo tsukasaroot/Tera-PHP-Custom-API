@@ -3,8 +3,7 @@
 namespace App\Controllers\Tera;
 
 use App\Models\JSON;
-use App\Models\SQL;
-use App\Models\Users as Users;
+use App\Models\Users;
 use stdClass;
 
 class teraController

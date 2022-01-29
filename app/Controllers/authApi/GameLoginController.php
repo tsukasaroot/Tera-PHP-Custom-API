@@ -3,7 +3,7 @@
 namespace App\Controllers\AuthApi;
 
 use App\Models\JSON;
-use App\Models\SQL;
+use App\Models\Users;
 
 class GameLoginController
 {
@@ -13,24 +13,23 @@ class GameLoginController
 		
 		$returnCode = 0;
 		$data = [];
-		$accountList = '';
+		$accountInfo = [];
 		
 		if (!isset($_POST['userNo']) || !isset($_POST['authKey'])) {
 			$returnCode = 15000;
 			$msg = 'Error GameLogin';
 		} else {
+			$user = new Users();
+			
 			$msg = 'success';
-			$accountList = [];
 			$id = $_POST['userNo'];
-			$q = "SELECT authKey FROM accountinfo WHERE accountDBID = $id";
-			$accountList = SQL::query($q);
+			$accountInfo = $user->select('authKey')->where([ 'accountDBID' => $id ])->get_row();
 		}
 		
-		if ($returnCode === 0 && $accountList[1] <= 0) {
+		if ($returnCode === 0 && !$accountInfo) {
 			$msg = 'Invalid login request';
 			$returnCode = 50000;
 		} else if ($returnCode === 0) {
-			$accountInfo = $accountList[0]->fetch_assoc();
 			if ($_POST['authKey'] != $accountInfo['authKey']) {
 				$msg = 'authKey mismatch';
 				$returnCode = 50011;

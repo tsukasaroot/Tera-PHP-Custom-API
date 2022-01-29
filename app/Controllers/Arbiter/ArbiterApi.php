@@ -3,6 +3,7 @@
 namespace App\Controllers\Arbiter;
 
 use App\Models\JSON;
+use Core\Model\Model;
 
 class ArbiterApi
 {
@@ -26,38 +27,12 @@ class ArbiterApi
 	
 	public function ModifyChar()
 	{
-		$msg = '';
-		$result_code = 0;
-		$data = [];
-		
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
-		
-		file_put_contents('logs.txt', print_r($_POST, true));
-		
-		if ($result_code > 0)
-			$data['msg'] = $msg;
-		
-		$data['result_code'] = $result_code;
-		
-		JSON::send_json($data);
+		$this->toReword();
 	}
 	
 	public function DeleteChar()
 	{
-		$msg = '';
-		$result_code = 0;
-		$data = [];
-		
-		$_POST = JSON::get_json_input(file_get_contents('php://input'));
-		
-		file_put_contents('logs.txt', print_r($_POST, true));
-		
-		if ($result_code > 0)
-			$data['msg'] = $msg;
-		
-		$data['result_code'] = $result_code;
-		
-		JSON::send_json($data);
+		$this->toReword();
 	}
 	
 	public function ServiceTest()
@@ -83,6 +58,27 @@ class ArbiterApi
 	public function ServerDown()
 	{
 		$result_code = 0;
+		$data['result_code'] = $result_code;
+		
+		JSON::send_json($data);
+	}
+	
+	/**
+	 * @return void
+	 */
+	private function toReword(): void
+	{
+		$msg = '';
+		$result_code = 0;
+		$data = [];
+		
+		$_POST = JSON::get_json_input(file_get_contents('php://input'));
+		
+		file_put_contents('logs.txt', print_r($_POST, true));
+		
+		if ($result_code > 0)
+			$data['msg'] = $msg;
+		
 		$data['result_code'] = $result_code;
 		
 		JSON::send_json($data);

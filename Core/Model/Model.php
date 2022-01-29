@@ -8,6 +8,7 @@ class Model
 	private object|string $sql_result;
 	private \mysqli $sql;
 	protected string $table;
+	private \mysqli_stmt $stmt;
 	
 	public function __destruct()
 	{
@@ -78,7 +79,7 @@ class Model
 	{
 		$this->query = "UPDATE $this->table SET ";
 		if (is_array($args)) {
-		
+			return $this;
 		} else {
 			$this->query .= $args . ' ';
 		}
