@@ -10,39 +10,33 @@ class teraController extends Controller
 {
 	public function getAccountInfoByUserNo(): bool
 	{
-		$returnCode = 0;
-		$data = [];
-		
 		if (!isset($_POST['id'])) {
-			$returnCode = 2;
-			$msg = "ID error";
-		} else {
-			$user = new Users();
-			$id = $_POST['id'];
-			
-			$accountInfo = $user->select(['charCount, isBlocked'])
-				->where(['accountDBID' => $id])
-				->get_row();
-			
-			if (!$accountInfo) {
-				$msg = "Account doesn't exist";
-				$returnCode = 50000;
-			} else {
-				$characterCount = match ($accountInfo['charCount']) {
-					1 => '0|2800,1',
-					2 => '0|2800,2',
-					3 => '0|2800,3',
-					default => '0|2800,0'
-				};
-				$data['charcountstr'] = $characterCount . '|';
-				$data['passitemInfo'] = false;
-				$data['permission'] = $accountInfo['isBlocked'];
-				$data['vipitemInfo'] = false;
-			}
+			$data['returnCode'] = 2;
+			$data['msg'] = "ID error";
+			return $this->response($data);
+		}
+		$user = new Users();
+		$id = $_POST['id'];
+		
+		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'accountDBID', $id);
+		
+		if (!$accountInfo) {
+			$data['msg'] = "Account doesn't exist";
+			$data['ReturnCode'] = 50000;
+			return $this->response($data);
 		}
 		
-		if ($returnCode > 0)
-			$data['msg'] = $msg;
+		$characterCount = match ($accountInfo['charCount']) {
+			1 => '0|2800,1',
+			2 => '0|2800,2',
+			3 => '0|2800,3',
+			default => '0|2800,0'
+		};
+		
+		$data['charcountstr'] = $characterCount . '|';
+		$data['passitemInfo'] = false;
+		$data['permission'] = $accountInfo['isBlocked'];
+		$data['vipitemInfo'] = false;
 		
 		return $this->response($data);
 	}
@@ -66,7 +60,7 @@ class teraController extends Controller
 			'charCount',
 			'isBlocked',
 			'accountDBID'
-		], $userName);
+		], 'userName', $userName);
 		
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
