@@ -44,8 +44,6 @@ class teraController extends Controller
 		if ($returnCode > 0)
 			$data['msg'] = $msg;
 		
-		file_put_contents('logs.txt', print_r($data, true));
-		
 		return $this->response($data);
 	}
 	

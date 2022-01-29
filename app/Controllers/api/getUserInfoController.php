@@ -14,8 +14,6 @@ class getUserInfoController extends Controller
 		$data = [];
 		$msg = '';
 		
-		file_put_contents('logs.txt', 'Trying GetUserInfo');
-		
 		if (!isset($_POST['user_srl']) || !isset($_POST['server_id']) ||
 			!isset($_POST['ip']) || !isset($_POST['serviceCode'])) {
 			$returnCode = 2;
@@ -60,8 +58,6 @@ class getUserInfoController extends Controller
 				$data['benefit'] = $benefits;
 			}
 		}
-		
-		file_put_contents('logs.txt', print_r($data, true));
 		
 		if ($returnCode > 0)
 			$data['msg'] = $msg;

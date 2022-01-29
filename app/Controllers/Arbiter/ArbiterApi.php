@@ -11,8 +11,6 @@ class ArbiterApi extends Controller
 		$result_code = 0;
 		$data = [];
 		
-		file_put_contents('logs.txt', print_r($_POST, true));
-		
 		/*if ($result_code > 0)
 			$data['msg'] = $msg;*/
 		
@@ -67,8 +65,6 @@ class ArbiterApi extends Controller
 		$msg = '';
 		$result_code = 0;
 		$data = [];
-		
-		file_put_contents('logs.txt', print_r($_POST, true));
 		
 		if ($result_code > 0)
 			$data['msg'] = $msg;
