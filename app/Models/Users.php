@@ -6,7 +6,7 @@ use Core\Model\Model;
 
 class Users extends Model
 {
-	public function getUserInfo(array|string|null $select = '*', string $whereKey='', int|string $user = 0): array|null
+	public function getUserInfo(array|string|null $select = '*', string $whereKey = '', int|string $user = 0): array|null
 	{
 		return $this->select($select)
 			->where([$whereKey => "'$user'"])

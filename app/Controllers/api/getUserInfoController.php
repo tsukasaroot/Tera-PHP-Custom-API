@@ -10,57 +10,43 @@ class getUserInfoController extends Controller
 {
 	public function info(): bool
 	{
-		$returnCode = 0;
-		$data = [];
-		$msg = '';
-		
-		if (!isset($_POST['user_srl']) || !isset($_POST['server_id']) ||
-			!isset($_POST['ip']) || !isset($_POST['serviceCode'])) {
-			$returnCode = 2;
-			$msg = 'user_srl=' . isset($_POST['user_srl']) . '&server_id=' . isset($_POST['server_id'])
+		if (empty($_POST['user_srl']) || empty($_POST['server_id']) ||
+			empty($_POST['ip']) || empty($_POST['serviceCode'])) {
+			$data['returnCode'] = 15000;
+			$data['msg'] = 'user_srl=' . isset($_POST['user_srl']) . '&server_id=' . isset($_POST['server_id'])
 				. "&ip=" . isset($_POST['ip']) . "&serviceCode=" . isset($_POST['serviceCode']);
+			return $this->response($data);
 		}
 		
-		if (!$_POST['user_srl']) {
-			$msg = 'id=null';
-			$returnCode = 15000;
-		} else {
-			$user = new Users();
-			$benef = new AccountBenefits();
+		$user = new Users();
+		$benef = new AccountBenefits();
+		
+		$id = $_POST['user_srl'];
+		
+		$accountInfo = $user->getUserInfo(['isBlocked', 'privilege', 'charCount'], 'accountDBID', $id);
+		
+		if ($accountInfo <= 0) {
+			$data['msg'] = 'Invalid login request';
+			$data['returnCode'] = 50000;
+			return $this->response($data);
+		}
 
-			$id = $_POST['user_srl'];
-			$accountInfo = $user->select([ 'isBlocked', 'privilege', 'charCount' ])
-				->where([ 'accountDBID' => $id ])
-				->get_row();
-			
-			if ($accountInfo <= 0) {
-				$msg = 'Invalid login request';
-				$returnCode = 50000;
-			} else {
-				$charCount = "0|2800," . $accountInfo['charCount'] . '|';
-				$all_benefits = $benef->select()->where([ 'accountDBID' => $id ])
-					->get();
-				
-				$benefits = [];
-				
-				$i = 0;
-				while ($i < count($all_benefits)) {
-					$benefits[$i][] = intval($all_benefits[$i][1]);
-					$benefits[$i][] = $all_benefits[$i][2] - time();
-					$i++;
-				}
-				
-				$data['vip_pub_exp'] = 0;
-				$data['permission'] = intval($accountInfo['isBlocked']);
-				$data['result_code'] = $returnCode;
-				$data['privilege'] = intval($accountInfo['privilege']);
-				$data['char_count_info'] = $charCount;
-				$data['benefit'] = $benefits;
-			}
+		$charCount = "0|2800," . $accountInfo['charCount'] . '|';
+		$all_benefits = $benef->select()->where(['accountDBID' => $id])->get();
+		$benefits = [];
+		$i = 0;
+		while ($i < count($all_benefits)) {
+			$benefits[$i][] = intval($all_benefits[$i][1]);
+			$benefits[$i][] = $all_benefits[$i][2] - time();
+			$i++;
 		}
 		
-		if ($returnCode > 0)
-			$data['msg'] = $msg;
+		$data['vip_pub_exp'] = 0;
+		$data['permission'] = intval($accountInfo['isBlocked']);
+		$data['result_code'] = 0;
+		$data['privilege'] = intval($accountInfo['privilege']);
+		$data['char_count_info'] = $charCount;
+		$data['benefit'] = $benefits;
 		
 		return $this->response($data);
 	}
