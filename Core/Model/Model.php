@@ -18,9 +18,7 @@ class Model
 	/* __construct database connection and table name */
 	public function __construct()
 	{
-		$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/../.env');
-		
-		$this->sql = new \mysqli($env['host'], $env['user'], $env['pwd'], $env['db']);
+		$this->sql = new \mysqli($GLOBALS['host'], $GLOBALS['user'], $GLOBALS['pwd'], $GLOBALS['db']);
 		
 		if ($this->sql->connect_error) {
 			$this->sql->close();

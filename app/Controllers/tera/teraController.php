@@ -49,94 +49,77 @@ class teraController extends Controller
 	
 	public function login(): bool
 	{
-		$returnCode = 0;
-		$data = [];
-		
-		if (!isset($_POST['r']) && $_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb') {
-			$returnCode = 58007;
-			$msg = 'invalid encoded parameter(base64)';
-		} else {
-			$user = new Users();
-			if ($_POST['userID'] && $_POST['password']) {
-				$logfile = '';
-				$userName = $_POST['userID'];
-				$password = $_POST['password'];
-				$msg = 'success';
-				
-				$accountInfo = $user->select([
-					'passWord',
-					'charCount',
-					'isBlocked',
-					'accountDBID'
-				])
-					->where(['userName' => "'$userName'" ])
-					->get_row();
-				
-				if (!$accountInfo) {
-					$msg = "Account doesn't exist";
-					$returnCode = 50000;
-				} else {
-					$secret_salt = 'TERAISNOTTHATGOODLMAO';
-					$pwd_salt = $secret_salt . $password;
-					$pass_sha512 = hash('sha512', $pwd_salt);
-					$characterCount = 0;
-					
-					if ($pass_sha512 != $accountInfo['passWord']) {
-						$msg = 'Password not correct';
-						$returnCode = 50015;
-					} else {
-						$newAuthKey = uniqid(more_entropy: true);
-						
-						$accountInfo = $user->select([
-							'passWord',
-							'charCount',
-							'isBlocked',
-							'accountDBID'
-						])
-							->where(['userName' => "'$userName'" ])
-							->get_row();
-						
-						$authKeySuccess = $user->update("authKey = '$newAuthKey'")
-						->where([ 'userName' => "'$userName'" ])
-						->execute();
-						
-						if (!$authKeySuccess) {
-							$msg = "Error occurred with auth token";
-							$returnCode = 50811;
-						}
-						
-						if ($returnCode === 0) {
-							$characterCount = match ($accountInfo['charCount']) {
-								1 => '0|2800,1',
-								2 => '0|2800,2',
-								3 => '0|2800,3',
-								default => '0|2800,0'
-							};
-						}
-						$data['VipitemInfo'] = false;
-						$data['msg'] = 'success';
-						$data['FailureCount'] = 0;
-						$data['PassitemInfo'] = false;
-						$data['ReturnCode'] = $returnCode;
-						$data['Return'] = !$returnCode;
-						$data['CharacterCount'] = $characterCount . '|';
-						$data['Permission'] = $accountInfo['isBlocked'];
-						$data['AuthKey'] = $newAuthKey;
-						$data['UserNo'] = $accountInfo['accountDBID'];
-						
-						$obj = new stdClass();
-						$obj->enumType = 'com.common.auth.User$UserStatus';
-						$obj->name = 'JOIN';
-						$data['UserStatus'] = $obj;
-						$data['phoneLock'] = false;
-					}
-				}
-			}
-			
-			if ($returnCode > 0)
-				$data['msg'] = $msg;
-			
+		if (!isset($_POST['r']) || $_POST['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb'
+			|| empty($_POST['userID']) || empty($_POST['password'])) {
+			$data['ReturnCode'] = 58007;
+			$data['Return'] = !$data['ReturnCode'];
+			$data['msg'] = 'LauncherLoginAction got a parameter error';
 			return $this->response($data);
 		}
+		
+		$user = new Users();
+		$userName = $_POST['userID'];
+		$password = $_POST['password'];
+		
+		$accountInfo = $user->getUserInfo([
+			'passWord',
+			'charCount',
+			'isBlocked',
+			'accountDBID'
+		], $userName);
+		
+		if (!$accountInfo) {
+			$data['msg'] = "Account doesn't exist";
+			$data['ReturnCode'] = 58000;
+			$data['Return'] = !$data['ReturnCode'];
+			return $this->response($data);
+		}
+		
+		$secret_salt = $GLOBALS['salt'];
+		$pwd_salt = $secret_salt . $password;
+		$pass_sha512 = hash('sha512', $pwd_salt);
+		
+		if ($pass_sha512 != $accountInfo['passWord']) {
+			$data['msg'] = 'Password not correct';
+			$data['returnCode'] = 50015;
+			$data['Return'] = !$data['returnCode'];
+			return $this->response($data);
+		}
+		
+		$newAuthKey = uniqid(more_entropy: true);
+		$authKeySuccess = $user->updateAuthKey($userName, $newAuthKey);
+		
+		if (!$authKeySuccess) {
+			$data['msg'] = 'Error occurred with auth token';
+			$data['returnCode'] = 50811;
+			$data['Return'] = !$data['ReturnCode'];
+			return $this->response($data);
+		}
+		
+		$characterCount = match ($accountInfo['charCount']) {
+			1 => '0|2800,1',
+			2 => '0|2800,2',
+			3 => '0|2800,3',
+			default => '0|2800,0'
+		};
+		
+		$data['VipitemInfo'] = false;
+		$data['msg'] = 'success';
+		$data['FailureCount'] = 0;
+		$data['PassitemInfo'] = false;
+		$data['ReturnCode'] = 0;
+		$data['Return'] = !$data['ReturnCode'];
+		$data['CharacterCount'] = $characterCount . '|';
+		$data['Permission'] = $accountInfo['isBlocked'];
+		$data['AuthKey'] = $newAuthKey;
+		$data['UserNo'] = $accountInfo['accountDBID'];
+		
+		$obj = new stdClass();
+		$obj->enumType = 'com.common.auth.User$UserStatus';
+		$obj->name = 'JOIN';
+		$data['UserStatus'] = $obj;
+		$data['phoneLock'] = false;
+		
+		return $this->response($data);
 	}
 }
