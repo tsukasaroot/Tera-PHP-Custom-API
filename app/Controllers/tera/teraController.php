@@ -17,9 +17,8 @@ class teraController extends Controller
 		}
 		
 		$user = new Users();
-		$id = $_POST['id'];
 		
-		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'accountDBID', $id);
+		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'accountDBID', $this->request['id']);
 		
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
@@ -53,15 +52,13 @@ class teraController extends Controller
 		}
 		
 		$user = new Users();
-		$userName = $_POST['userID'];
-		$password = $_POST['password'];
 		
 		$accountInfo = $user->getUserInfo([
 			'passWord',
 			'charCount',
 			'isBlocked',
 			'accountDBID'
-		], 'userName', $userName);
+		], 'userName', $this->request['username']);
 		
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
@@ -71,7 +68,7 @@ class teraController extends Controller
 		}
 		
 		$secret_salt = $GLOBALS['salt'];
-		$pwd_salt = $secret_salt . $password;
+		$pwd_salt = $secret_salt . $this->request['password'];
 		$pass_sha512 = hash('sha512', $pwd_salt);
 		
 		if ($pass_sha512 != $accountInfo['passWord']) {
@@ -82,7 +79,7 @@ class teraController extends Controller
 		}
 		
 		$newAuthKey = uniqid(more_entropy: true);
-		$authKeySuccess = $user->updateAuthKey($userName, $newAuthKey);
+		$authKeySuccess = $user->updateAuthKey($this->request['username'], $newAuthKey);
 		
 		if (!$authKeySuccess) {
 			$data['msg'] = 'Error occurred with auth token';

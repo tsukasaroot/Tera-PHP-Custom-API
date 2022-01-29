@@ -9,6 +9,7 @@ class Model
 	private \mysqli $sql;
 	protected string $table;
 	private \mysqli_stmt $stmt;
+
 	
 	public function __destruct()
 	{
