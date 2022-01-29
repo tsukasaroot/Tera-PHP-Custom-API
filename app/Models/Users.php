@@ -20,5 +20,10 @@ class Users extends Model
 			->execute();
 	}
 	
+	public function getAuthKey(int $id): object|array|null
+	{
+		return $this->select('authKey')->where(['accountDBID' => $id])->get_row();;
+	}
+	
 	protected string $table = 'accountinfo';
 }
