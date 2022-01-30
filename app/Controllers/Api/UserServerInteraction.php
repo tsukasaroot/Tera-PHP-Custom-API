@@ -16,18 +16,13 @@ class UserServerInteraction extends Controller
 	
 	public function LeaveGame(): bool
 	{
-		$msg = '';
-		$result_code = 0;
-		
-		if (!isset($this->request['user_srl']) || !isset($this->request['serviceCode'])) {
-			$result_code = 2;
-			$msg = 'Error with LeaveGame';
+		if (!isset($this->request['user_srl']) || !isset($this->request['serviceCode']) || !isset($this->request['play_time'])) {
+			$data['result_code'] = 2;
+			$data['msg'] = 'Error with LeaveGame';
+			return $this->response($data);
 		}
 		
-		$data['result_code'] = $result_code;
-		if ($result_code > 0)
-			$data['msg'] = $msg;
-		
+		$data['result_code'] = 0;
 		return $this->response($data);
 	}
 }
