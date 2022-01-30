@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Arbiter\systemApi;
+namespace App\Controllers\Arbiter\SystemApi;
 
 use App\Controllers\Controller;
 class SystemApi extends Controller
