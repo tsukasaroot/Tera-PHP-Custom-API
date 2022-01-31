@@ -20,6 +20,13 @@ class Users extends Model
 			->execute();
 	}
 	
+	public function updateData(array|string $args, int $id): bool
+	{
+		return $this->update($args)
+			->where(['accountDBID' => $id])
+			->execute();
+	}
+	
 	public function getAuthKey(int $id): object|array|null
 	{
 		return $this->select('authKey')->where(['accountDBID' => $id])->get_row();;

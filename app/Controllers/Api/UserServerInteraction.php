@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\Controller;
+use App\Models\Users;
 
 class UserServerInteraction extends Controller
 {
@@ -19,6 +20,18 @@ class UserServerInteraction extends Controller
 		if (!isset($this->request['user_srl']) || !isset($this->request['serviceCode']) || !isset($this->request['play_time'])) {
 			$data['result_code'] = 2;
 			$data['msg'] = 'Error with LeaveGame';
+			return $this->response($data);
+		}
+		$user = new Users();
+		
+		$res = $user->updateData([
+			'playTimeLast' => $this->request['play_time'],
+			'playTimeTotal' => 'playTimeTotal + ' . $this->request['play_time']
+		], $this->request['user_srl']);
+		
+		if (!$res) {
+			$data['result_code'] = 501000;
+			$data['msg'] = 'Error while updating play_time';
 			return $this->response($data);
 		}
 		

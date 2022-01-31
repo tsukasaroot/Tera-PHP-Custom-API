@@ -78,7 +78,15 @@ class Model
 	{
 		$this->query = "UPDATE $this->table SET ";
 		if (is_array($args)) {
-			return $this;
+			$buildQuery = http_build_query($args, null, ',');
+			$buildQuery = str_replace(':', '=', $buildQuery);
+			$buildQuery = str_replace(',', ',', $buildQuery);
+			$buildQuery = str_replace('%22', '"', $buildQuery);
+			$buildQuery = str_replace('+', " ", $buildQuery);
+			$buildQuery = str_replace('%27', "'", $buildQuery);
+			$buildQuery = str_replace('%2B', "+", $buildQuery);
+			$this->query .= $buildQuery . ' ';
+
 		} else {
 			$this->query .= $args . ' ';
 		}
