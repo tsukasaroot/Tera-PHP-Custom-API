@@ -1,12 +1,9 @@
 <?php
 
 namespace Core;
-
-use JetBrains\PhpStorm\NoReturn;
-
 class Kernel
 {
-	#[NoReturn] public static function web()
+	public static function web()
 	{
 		if (empty($_SERVER['REQUEST_METHOD'])) {
 			echo 'nope';

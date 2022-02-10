@@ -3,8 +3,6 @@
 namespace Core;
 
 use Closure;
-use JetBrains\PhpStorm\NoReturn;
-
 class Routes
 {
 	private static function perform_route_check(string $method, string $route): bool
@@ -76,14 +74,14 @@ class Routes
 		die();
 	}
 	
-	#[NoReturn] public static function catch_all()
+	public static function catch_all()
 	{
 		http_response_code(404);
 		Http::send_json([ 'Error' => '404 not found' ]);
 		die();
 	}
 	
-	#[NoReturn] public static function create()
+	public static function create()
 	{
 		require '../routes/api.php';
 		self::catch_all();
