@@ -33,4 +33,5 @@ class Users extends Model
 	}
 	
 	protected string $table = 'accountinfo';
+	protected int $db = 1;
 }

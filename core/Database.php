@@ -25,8 +25,9 @@ class Database
 			}
 		}
 		
-		if ($db > 0)
+		if ($db > 0) {
 			$this->make_mysql_connection($databases[$db]);
+		}
 	}
 	
 	private function make_mysql_connection(array $connection)
