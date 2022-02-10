@@ -1,30 +1,21 @@
 <?php
 
-namespace Core\Model;
-
+namespace Core;
 class Model
 {
 	private string $query;
 	private object|string $sql_result;
-	private \mysqli $sql;
+	private \mysqli|null $sql;
 	protected string $table;
+	protected int $db = 0;
 	private \mysqli_stmt $stmt;
-
-	
-	public function __destruct()
-	{
-		$this->sql->close();
-	}
+	private Database $connect;
 	
 	/* __construct database connection and table name */
 	public function __construct()
 	{
-		$this->sql = new \mysqli($GLOBALS['host'], $GLOBALS['user'], $GLOBALS['pwd'], $GLOBALS['db']);
-		
-		if ($this->sql->connect_error) {
-			$this->sql->close();
-			die("Connection failed: ");
-		}
+		$this->connect = new Database($this->db);
+		$this->sql = $this->connect->get_sql();
 	}
 	
 	public function select(string|array $args = '*'): static
