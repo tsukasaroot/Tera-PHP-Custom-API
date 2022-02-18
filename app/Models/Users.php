@@ -10,7 +10,7 @@ class Users extends Model
 	{
 		return $this->select($select)
 			->where([$whereKey => "'$user'"])
-			->get_row();
+			->getRow();
 	}
 	
 	public function updateAuthKey(string $username, string $authKey): bool
@@ -29,7 +29,7 @@ class Users extends Model
 	
 	public function getAuthKey(int $id): object|array|null
 	{
-		return $this->select('authKey')->where(['accountDBID' => $id])->get_row();;
+		return $this->select('authKey')->where(['accountDBID' => $id])->getRow();
 	}
 	
 	protected string $table = 'accountinfo';
