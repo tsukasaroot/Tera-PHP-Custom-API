@@ -17,7 +17,7 @@ class Controller
 	
 	public function response(array|string $arg): bool
 	{
-		Http::send_json($arg);
+		Http::sendJson($arg);
 		return true;
 	}
 }
