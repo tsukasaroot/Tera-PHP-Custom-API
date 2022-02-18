@@ -15,7 +15,7 @@ class Model
 	public function __construct()
 	{
 		$this->connect = new Database($this->db);
-		$this->sql = $this->connect->get_sql();
+		$this->sql = $this->connect->getSql();
 	}
 	
 	public function select(string|array $args = '*'): static
@@ -54,7 +54,7 @@ class Model
 				->fetch_all() ?? false;
 	}
 	
-	public function get_row(): object|array|null
+	public function getRow(): object|array|null
 	{
 		$rs = $this->sql->query($this->query);
 		return $rs?->fetch_assoc();

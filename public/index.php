@@ -2,6 +2,4 @@
 
 require '../vendor/autoload.php';
 
-use Core\Kernel as Kernel;
-
-Kernel::web();
+Core\Kernel::web();

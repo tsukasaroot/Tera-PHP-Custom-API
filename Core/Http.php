@@ -4,7 +4,7 @@ namespace Core;
 
 class Http
 {
-	public static function received_input()
+	public static function receivedInput()
 	{
 		if (empty($_POST) && $json = file_get_contents('php://input')) {
 			$var = [];
@@ -17,10 +17,12 @@ class Http
 		}
 	}
 	
-	public static function send_json($data)
+	public static function sendJson(mixed $data, int $code=200)
 	{
 		header('Content-Length: ' . strlen(json_encode($data)));
 		header('Content-Type: application/json; charset=utf-8');
+		http_response_code($code);
+		$data['time'] = Bench::endTime($GLOBALS['start']);
 		echo json_encode($data);
 	}
 }

@@ -11,7 +11,7 @@ class Migrator
 	public function __construct()
 	{
 		$this->database = new Database(1);
-		$this->driver = $this->database->get_sql();
+		$this->driver = $this->database->getSql();
 		$table = self::TABLE;
 		
 		if ($this->driver->query("SHOW TABLES LIKE '$table'")->num_rows !== 1) {
@@ -30,7 +30,7 @@ class Migrator
 		}
 	}
 	
-	public function do_migration()
+	public function doMigration()
 	{
 		$path = 'Database/migrations';
 		$filesToMigrate = scandir($path);
@@ -70,7 +70,7 @@ class Migrator
 		}
 	}
 	
-	public function do_refresh()
+	public function doRefresh()
 	{
 		$path = 'Database/migrations';
 		$filesToMigrate = scandir($path);
@@ -84,11 +84,11 @@ class Migrator
 			$toDrop[] = explode('.', $file)[0];;
 		}
 		
-		$this->do_drop($toDrop);
-		$this->do_migration();
+		$this->doDrop($toDrop);
+		$this->doMigration();
 	}
 	
-	public function do_drop(array $tables)
+	public function doDrop(array $tables)
 	{
 		foreach ($tables as $table) {
 			$sql = <<<EOF

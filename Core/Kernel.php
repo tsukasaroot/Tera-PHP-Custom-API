@@ -9,6 +9,9 @@ class Kernel
 			echo 'nope';
 			die();
 		}
+		
+		$GLOBALS['start'] = Bench::startTime();
+		
 		$request = $_SERVER['REQUEST_URI'];
 		
 		$GLOBALS['Http'] = $request;
@@ -24,13 +27,18 @@ class Kernel
 		
 		date_default_timezone_set($GLOBALS['timezone'] ?? 'Europe/Paris');
 		
-		error_reporting($GLOBALS['debug'] ?? false);
+		error_reporting(intval($GLOBALS['debug']) ?? false);
 		ini_set('display_errors', $GLOBALS['debug'] ?? false);
 		
 		$token = new Token();
-		$token->check_token($_SERVER['AUTH_TOKEN'] ?? '');
 		
-		Http::received_input();
+		if ($token->activated) {
+			$auth_is_activated = apache_request_headers()['Auth-Token'];
+			$auth_is_activated = $auth_is_activated ?: apache_request_headers()['auth-token'];
+			$token->checkToken($auth_is_activated ?: '');
+		}
+		
+		Http::receivedInput();
 		Routes::create();
 	}
 }
