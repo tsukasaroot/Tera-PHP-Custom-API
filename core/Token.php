@@ -2,11 +2,12 @@
 
 namespace Core;
 
-use Core\Caching;
+use mysqli;
+use mysqli_result;
 class Token
 {
 	public bool $activated;
-	private \mysqli $driver;
+	private mysqli $driver;
 	private Database $database;
 	private Caching $cache;
 	const TABLE = 'tokens';
@@ -75,7 +76,7 @@ class Token
 		}
 	}
 	
-	private function performCheck(string $token): null|bool|\mysqli_result|array
+	private function performCheck(string $token): null|bool|mysqli_result|array
 	{
 		if (!$this->activated)
 			return null;

@@ -3,8 +3,6 @@
 namespace Core;
 
 use Closure;
-use JetBrains\PhpStorm\NoReturn;
-
 class Routes
 {
 	private static function performRouteCheck(string $method, string $route): bool

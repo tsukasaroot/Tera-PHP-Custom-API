@@ -1,14 +1,13 @@
 <?php
 
 namespace Core;
+use mysqli;
 class Model
 {
 	private string $query;
-	private object|string $sql_result;
-	private \mysqli|null $sql;
+	private mysqli|null $sql;
 	protected string $table;
 	protected int $db = 0;
-	private \mysqli_stmt $stmt;
 	private Database $connect;
 	
 	/* __construct database connection and table name */
@@ -58,11 +57,6 @@ class Model
 	{
 		$rs = $this->sql->query($this->query);
 		return $rs?->fetch_assoc();
-	}
-	
-	public function value(): string
-	{
-		return $this->sql_result;
 	}
 	
 	public function update(array|string $args): static

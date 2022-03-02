@@ -81,7 +81,7 @@ class Migrator
 				continue;
 			if (explode('.', $file)[1] !== 'sql')
 				continue;
-			$toDrop[] = explode('.', $file)[0];;
+			$toDrop[] = explode('.', $file)[0];
 		}
 		
 		$this->doDrop($toDrop);

@@ -210,6 +210,11 @@ function helper()
     EOF;
 }
 
+function version()
+{
+    echo "V 0.1";
+}
+
 if (count($argv) === 1) {
 	helper();
 	die();
@@ -236,6 +241,9 @@ switch ($call) {
 	case 'memcache':
 		memcached($argv[2] ?? null, $argv[3] ?? null);
 		break;
+	case '--version':
+	    version();
+	    break;
 	default:
 		helper();
 		break;

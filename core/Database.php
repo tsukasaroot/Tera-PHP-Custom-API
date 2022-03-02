@@ -2,9 +2,11 @@
 
 namespace Core;
 
+use mysqli;
+
 class Database
 {
-	private \mysqli $sql;
+	private mysqli $sql;
 	private int $init = 0;
 	
 	public function __destruct()
@@ -31,7 +33,7 @@ class Database
 	
 	private function makeMysqlConnection(array $connection)
 	{
-		$this->sql = new \mysqli($connection[1], $connection[3],
+		$this->sql = new mysqli($connection[1], $connection[3],
 			$connection[4], $connection[2]);
 		
 		if ($this->sql->connect_error) {
@@ -41,7 +43,7 @@ class Database
 		$this->init++;
 	}
 	
-	public function getSql(): \mysqli|null
+	public function getSql(): mysqli|null
 	{
 		if ($this->init)
 			return $this->sql;
