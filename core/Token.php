@@ -61,7 +61,7 @@ class Token
 		$table = self::TABLE;
 		
 		$this->driver->query("DELETE FROM $table WHERE token='$token'");
-		$this->cache->delete(key: $token);
+		$this->cache->delete(key: $token, method: 'memcached');
 		
 		$date = time();
 		$token = uniqid(more_entropy: true);
@@ -69,7 +69,7 @@ class Token
 			INSERT INTO tokens VALUES('$token',$date)
 			EOF;
 		if ($this->driver->query($sql)) {
-			$this->cache->add(key: $token, value: $date);
+			$this->cache->add(key: $token, value: $date, method: 'memcached');
 			Http::sendJson(['success' => 'Token added with success', 'token' => $token]);
 		} else {
 			Http::sendJson(['error' => "Error happened when inserting into table token", 'error_msg' => $this->driver->error], 500);
@@ -85,8 +85,8 @@ class Token
 			die();
 		}
 		
-		if ($this->cache->status) {
-			$t = $this->cache->get(key: $token);
+		if ($this->cache->memcache_status) {
+			$t = $this->cache->get(key: $token, method: 'memcached');
 			if (!$t[$token]) {
 				Http::sendJson(['error' => "Token doesn't exist", 'error_msg' => 'Not found in Memcache: ' . $token], 404);
 				die();
