@@ -11,6 +11,7 @@ Routes::post('/authApi/GameAuthenticationLogin','authApi\\GameLoginController@lo
 Routes::post('/api/GetUserInfo', 'Api\\getUserInfoController@info');
 Routes::post('/api/EnterGame', 'Api\\UserServerInteraction@EnterGame');
 Routes::post('/api/LeaveGame', 'Api\\UserServerInteraction@LeaveGame');
+Routes::post('/tera/register', 'Tera\\teraController@register');
 /**
  * Arb_GW
  */

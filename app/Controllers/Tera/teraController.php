@@ -41,6 +41,30 @@ class teraController extends Controller
 		return $this->response($data);
 	}
 	
+	public function register(): bool
+	{
+		if (!isset($this->request['r']) || $this->request['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb'
+			|| empty($this->request['userID']) || empty($this->request['password'])) {
+			$data['ReturnCode'] = 58007;
+			$data['Return'] = !$data['ReturnCode'];
+			$data['msg'] = 'LauncherLoginAction got a parameter error';
+			return $this->response($data);
+		}
+		
+		$user = new Users();
+		
+		$secret_salt = $GLOBALS['salt'];
+		$pwd_salt = $secret_salt . $this->request['password'];
+		$pass_sha512 = hash('sha512', $pwd_salt);
+		
+		$state = $user->createUser([
+			'userName' => $this->request['userID'],
+			'passWord' => $pass_sha512
+		], 'userName,passWord');
+		
+		return $this->login();
+	}
+	
 	public function login(): bool
 	{
 		if (!isset($this->request['r']) || $this->request['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb'
@@ -112,6 +136,13 @@ class teraController extends Controller
 		$data['UserStatus'] = $obj;
 		$data['phoneLock'] = false;
 		
-		return $this->response($data);
+		$state = $this->response($data);
+		
+		$ip = "'" . $_SERVER['REMOTE_ADDR'];
+		if ($_SERVER['HTTP_X_FORWARDED_FOR'])
+			$ip .= ',' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+		$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
+		
+		return $state;
 	}
 }

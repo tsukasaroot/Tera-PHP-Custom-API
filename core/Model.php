@@ -1,7 +1,9 @@
 <?php
 
 namespace Core;
+
 use mysqli;
+
 class Model
 {
 	private string $query;
@@ -70,16 +72,38 @@ class Model
 			$buildQuery = str_replace('+', " ", $buildQuery);
 			$buildQuery = str_replace('%27', "'", $buildQuery);
 			$buildQuery = str_replace('%2B', "+", $buildQuery);
-			$this->query .= $buildQuery . ' ';
-
+			$this->query .= "$buildQuery" . ' ';
 		} else {
 			$this->query .= $args . ' ';
 		}
 		return $this;
 	}
 	
+	public function insert(array|string $args, string $cols): static
+	{
+		$this->query = "INSERT INTO $this->table ($cols) VALUES (";
+		if (is_array($args)) {
+			$i = 0;
+			foreach ($args as $key => $value) {
+				$this->query .= "'$value'";
+				if ($i + 1 != count($args))
+					$this->query .= ',';
+				$i++;
+			}
+		} else {
+			$this->query .= $args;
+		}
+		$this->query .= ')';
+		
+		return $this;
+	}
+	
 	public function execute(): bool
 	{
-		return $this->sql->query($this->query);
+		$state = $this->sql->query($this->query);
+		if (!$state) {
+			Http::sendJson(data: ['database' => $this->sql->error], code: 401);
+		}
+		return $state;
 	}
 }

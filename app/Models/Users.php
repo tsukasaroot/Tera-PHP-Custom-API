@@ -32,6 +32,15 @@ class Users extends Model
 		return $this->select('authKey')->where(['accountDBID' => $id])->getRow();
 	}
 	
+	public function createUser(array $array, $cols): bool
+	{
+		$state = $this->insert($array, $cols)->execute();
+		
+		if (!$state)
+			die();
+		return true;
+	}
+	
 	protected string $table = 'accountinfo';
 	protected int $db = 1;
 }
