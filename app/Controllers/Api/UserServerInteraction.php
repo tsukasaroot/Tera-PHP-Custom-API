@@ -4,7 +4,6 @@ namespace App\Controllers\Api;
 
 use App\Controllers\Controller;
 use App\Models\Users;
-
 class UserServerInteraction extends Controller
 {
 	public function EnterGame(): bool
@@ -12,6 +11,11 @@ class UserServerInteraction extends Controller
 		$returnCode = 0;
 		$data['result_code'] = $returnCode;
 		
+		$user = new Users();
+		
+		$user->updateData([
+			'playCount' => 'playCount + 1'
+		], $this->request['user_srl']);
 		return $this->response($data);
 	}
 	
