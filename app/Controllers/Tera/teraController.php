@@ -91,6 +91,14 @@ class teraController extends Controller
 			return $this->response($data);
 		}
 		
+		if ($accountInfo['isBlocked']) {
+			$data['msg'] = "Account is blocked";
+			$data['ReturnCode'] = 58000;
+			$data['Return'] = !$data['ReturnCode'];
+			$this->response($data, 401);
+			die();
+		}
+		
 		$secret_salt = $GLOBALS['salt'];
 		$pwd_salt = $secret_salt . $this->request['password'];
 		$pass_sha512 = hash('sha512', $pwd_salt);
@@ -141,6 +149,7 @@ class teraController extends Controller
 		$ip = "'" . $_SERVER['REMOTE_ADDR'];
 		if ($_SERVER['HTTP_X_FORWARDED_FOR'])
 			$ip .= ',' . $_SERVER['HTTP_X_FORWARDED_FOR'];
+
 		$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
 		
 		return $state;

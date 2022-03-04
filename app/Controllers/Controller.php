@@ -15,9 +15,9 @@ class Controller
 		}
 	}
 	
-	public function response(array|string $arg): bool
+	public function response(array|string $arg, int $code=200): bool
 	{
-		Http::sendJson($arg);
+		Http::sendJson($arg, $code);
 		return true;
 	}
 }
