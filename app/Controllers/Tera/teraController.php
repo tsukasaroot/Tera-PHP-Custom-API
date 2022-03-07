@@ -5,7 +5,7 @@ namespace App\Controllers\Tera;
 use App\Controllers\Controller;
 use App\Models\Users;
 use stdClass;
-
+use App\Controllers\logController;
 class teraController extends Controller
 {
 	public function getAccountInfoByUserNo(): bool
@@ -146,11 +146,13 @@ class teraController extends Controller
 		
 		$state = $this->response($data);
 		
-		$ip = "'" . $_SERVER['REMOTE_ADDR'];
+		$ip = $_SERVER['REMOTE_ADDR'];
 		if ($_SERVER['HTTP_X_FORWARDED_FOR'])
 			$ip .= ',' . $_SERVER['HTTP_X_FORWARDED_FOR'];
 
-		$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
+		$user->updateData(['lastLoginIP' => "'" . $ip . "'"], $data['UserNo']);
+		
+		logController::insert('User no ' . $data['UserNo'] . ' ' . $ip . ' has logged in launcher');
 		
 		return $state;
 	}

@@ -6,7 +6,7 @@
 -- --------------------------------------------------------
 
 -- Listage de la structure de la table accountdb_2800. accountinfo
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `accountinfo` (
     `accountDBID` int(11) NOT NULL AUTO_INCREMENT,
     `userName` varchar(64) NOT NULL,
     `passWord` varchar(555) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `playCount` int(11) NOT NULL DEFAULT 0,
     `isBlocked` int(11) NOT NULL DEFAULT 0,
     `privilege` int(11) NOT NULL DEFAULT 0,
-    PRIMARY KEY (`accountDBID`,`userName`)
+    PRIMARY KEY (`accountDBID`)
     ) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- Modified for test
