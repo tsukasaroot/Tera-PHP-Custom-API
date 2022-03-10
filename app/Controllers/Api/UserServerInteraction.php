@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\Controller;
+use App\Controllers\logController;
 use App\Models\Users;
 class UserServerInteraction extends Controller
 {
@@ -16,7 +17,9 @@ class UserServerInteraction extends Controller
 		$user->updateData([
 			'playCount' => 'playCount + 1'
 		], $this->request['user_srl']);
-		return $this->response($data);
+		$this->response($data);
+		
+		return true;
 	}
 	
 	public function LeaveGame(): bool
@@ -40,6 +43,9 @@ class UserServerInteraction extends Controller
 		}
 		
 		$data['result_code'] = 0;
-		return $this->response($data);
+		$this->response($data);
+		
+		logController::insert('User no ' . $this->request['user_srl'] . ' has left game');
+		return false;
 	}
 }
