@@ -19,6 +19,7 @@ class UserServerInteraction extends Controller
 		], $this->request['user_srl']);
 		$this->response($data);
 		
+		logController::insert('User no ' . $this->request['user_srl'] . ' has Entered server ' . $this->request['server_id']);
 		return true;
 	}
 	
