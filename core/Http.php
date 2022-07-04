@@ -19,7 +19,7 @@ class Http
 	
 	public static function sendJson(mixed $data, int $code=200)
 	{
-		$data['time'] = Bench::endTime($GLOBALS['start']);
+		//$data['time'] = Bench::endTime($GLOBALS['start']);
 		
 		header('Content-Length: ' . strlen(json_encode($data)));
 		header('Content-Type: application/json; charset=utf-8');
