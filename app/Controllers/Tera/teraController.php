@@ -148,8 +148,9 @@ class teraController extends Controller
 		$data['Return'] = !$data['ReturnCode'];
 		$data['CharacterCount'] = $characterCount . '|';
 		$data['Permission'] = $accountInfo['isBlocked'];
-		$data['AuthKey'] = $newAuthKey;
-		$data['UserNo'] = $accountInfo['accountDBID'];
+		$data['token'] = $newAuthKey;
+		$data['id'] = $accountInfo['accountDBID'];
+		$data['username'] = $this->request['userID'];
 		
 		$obj = new stdClass();
 		$obj->enumType = 'com.common.auth.User$UserStatus';
