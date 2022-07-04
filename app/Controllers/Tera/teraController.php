@@ -26,7 +26,7 @@ class teraController extends Controller
 			return $this->response($data);
 		}
 		
-		$characterCount = match ($accountInfo['charCount']) {
+		/*$characterCount = match ($accountInfo['charCount']) {
 			1 => '0|2800,1',
 			2 => '0|2800,2',
 			3 => '0|2800,3',
@@ -36,7 +36,20 @@ class teraController extends Controller
 		$data['charcountstr'] = $characterCount . '|';
 		$data['passitemInfo'] = false;
 		$data['permission'] = $accountInfo['isBlocked'];
-		$data['vipitemInfo'] = false;
+		$data['vipitemInfo'] = false;*/
+
+		$data['result-message'] = 'OK';
+		$data['result-code'] = 200;
+		$data['account_bits'] = "0x00000000";
+		$data['ticket'] = $user->getAuthKey($this->request['id'])['authKey'];
+		$data['last_connected_server_id'] = 2800;
+		$data['master_account_name'] = $this->request['id'];
+		$data['chars_per_server'] = [
+			'id' => 2800,
+			"char_count" => $accountInfo['charCount'],
+		];
+		$data["user_permission"] = 0;
+		$data["game_account_name"] = "TERA";
 		
 		return $this->response($data);
 	}
