@@ -29,7 +29,7 @@ class teraController extends Controller
 		$data['master_account_name'] = $accountInfo['accountDBID'];
 		$class = [];
 		$class[] = new stdClass();
-		$class[0]->id = 2800;
+		$class[0]->id = "2800";
 		$class[0]->char_count = '-8';
 		$data['chars_per_server'] = $class;
 		$data['user_permission'] = 0;
