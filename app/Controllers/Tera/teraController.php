@@ -45,10 +45,10 @@ class teraController extends Controller
 		$data['ticket'] = $auth;
 		$data['last_connected_server_id'] = 1;
 		$data['master_account_name'] = $accountInfo['accountDBID'];
-		$data['chars_per_server'] = {[
+		/*$data['chars_per_server'] = {[
 				'id' => 2800,
 				"char_count" => '-8'
-		]};
+		]};*/
 		$data['user_permission'] = 0;
 		$data['game_account_name'] = 'TERA';
 
