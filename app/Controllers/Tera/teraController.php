@@ -42,7 +42,7 @@ class teraController extends Controller
 		$data['result-message'] = 'OK';
 		$data['result-code'] = 200;
 		$data['account_bits'] = "0x00000000";
-		$data['ticket'] = $user->getAuthKey($this->request['id'])['authKey'];
+		$data['ticket'] = $auth;
 		$data['last_connected_server_id'] = 2800;
 		$data['master_account_name'] = $accountInfo['accountDBID'];
 		$data['chars_per_server'] = [
