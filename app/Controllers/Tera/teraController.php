@@ -16,9 +16,7 @@ class teraController extends Controller
 			return $this->response($data);
 		}*/
 
-		$auth = $_SERVER['Authorization'];
-		print_r($_SERVER);
-		exit();
+		$auth = $_SERVER['HTTP_AUTHORIZATION'];
 		$auth = str_replace('Bearer ', '', $auth);
 		$user = new Users();
 		
