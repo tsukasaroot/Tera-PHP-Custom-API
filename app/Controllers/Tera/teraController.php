@@ -20,7 +20,7 @@ class teraController extends Controller
 		$auth = str_replace('Bearer ', '', $auth);
 		$user = new Users();
 		
-		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'authKey', $auth);
+		$accountInfo = $user->getUserInfo(['accountDBID', 'charCount, isBlocked'], 'authKey', $auth);
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
 			$data['ReturnCode'] = 50000;
@@ -44,7 +44,7 @@ class teraController extends Controller
 		$data['account_bits'] = "0x00000000";
 		$data['ticket'] = $user->getAuthKey($this->request['id'])['authKey'];
 		$data['last_connected_server_id'] = 2800;
-		$data['master_account_name'] = $this->request['id'];
+		$data['master_account_name'] = $accountInfo['accountDBID'];
 		$data['chars_per_server'] = [
 			'id' => 2800,
 			"char_count" => $accountInfo['charCount'],
