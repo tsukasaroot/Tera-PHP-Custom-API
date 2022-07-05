@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controllers\AuthApi;
+namespace App\Controllers;
 
-use App\Controllers\Controller;
 use App\Models\Users;
 
 class GameLoginController extends Controller
