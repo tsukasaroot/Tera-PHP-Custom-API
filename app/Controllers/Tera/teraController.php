@@ -52,8 +52,7 @@ class teraController extends Controller
 		$data["user_permission"] = 0;
 		$data["game_account_name"] = "TERA";
 
-		return true;
-		//return $this->response($data);
+		return $this->response($data);
 	}
 	
 	public function register(): bool
