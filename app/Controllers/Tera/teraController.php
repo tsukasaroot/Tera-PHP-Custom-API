@@ -10,12 +10,6 @@ class teraController extends Controller
 {
 	public function getAccountInfoByUserNo(): bool
 	{
-		/*if (!isset($this->request['id'])) {
-			$data['returnCode'] = 2;
-			$data['msg'] = "ID error";
-			return $this->response($data);
-		}*/
-
 		$auth = $_SERVER['HTTP_AUTHORIZATION'];
 		$auth = str_replace('Bearer ', '', $auth);
 		$user = new Users();
@@ -26,18 +20,6 @@ class teraController extends Controller
 			$data['ReturnCode'] = 50000;
 			return $this->response($data);
 		}
-		
-		/*$characterCount = match ($accountInfo['charCount']) {
-			1 => '0|2800,1',
-			2 => '0|2800,2',
-			3 => '0|2800,3',
-			default => '0|2800,0'
-		};
-		
-		$data['charcountstr'] = $characterCount . '|';
-		$data['passitemInfo'] = false;
-		$data['permission'] = $accountInfo['isBlocked'];
-		$data['vipitemInfo'] = false;*/
 
 		$data['result-message'] = 'OK';
 		$data['result-code'] = 200;
@@ -82,14 +64,6 @@ class teraController extends Controller
 	
 	public function login(): bool
 	{
-		if (!isset($this->request['r']) || $this->request['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb'
-			|| empty($this->request['userID']) || empty($this->request['password'])) {
-			$data['ReturnCode'] = 58007;
-			$data['Return'] = !$data['ReturnCode'];
-			$data['msg'] = 'LauncherLoginAction got a parameter error';
-			return $this->response($data);
-		}
-		
 		$user = new Users();
 		
 		$accountInfo = $user->getUserInfo([
@@ -97,7 +71,7 @@ class teraController extends Controller
 			'charCount',
 			'isBlocked',
 			'accountDBID'
-		], 'userName', $this->request['userID']);
+		], 'userName', $this->request['username']);
 		
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
@@ -127,7 +101,7 @@ class teraController extends Controller
 		
 		$newAuthKey = uniqid(more_entropy: true);
 		$newAuthKey = str_replace('.', '', $newAuthKey);
-		$authKeySuccess = $user->updateAuthKey($this->request['userID'], $newAuthKey);
+		$authKeySuccess = $user->updateAuthKey($this->request['username'], $newAuthKey);
 		
 		if (!$authKeySuccess) {
 			$data['msg'] = 'Error occurred with auth token';
@@ -135,38 +109,11 @@ class teraController extends Controller
 			$data['Return'] = !$data['ReturnCode'];
 			return $this->response($data);
 		}
-		
-		$characterCount = match ($accountInfo['charCount']) {
-			1 => '0|2800,1',
-			2 => '0|2800,2',
-			3 => '0|2800,3',
-			default => '0|2800,0'
-		};
-		
-		/*$data['VipitemInfo'] = false;
-		$data['msg'] = 'success';
-		$data['FailureCount'] = 0;
-		$data['PassitemInfo'] = false;
-		$data['ReturnCode'] = 0;
-		$data['Return'] = !$data['ReturnCode'];
-		$data['CharacterCount'] = $characterCount . '|';
-		$data['Permission'] = $accountInfo['isBlocked'];*/
+
 		$data['token'] = $newAuthKey;
 		$data['id'] = $accountInfo['accountDBID'];
-		$data['username'] = $this->request['userID'];
-		
-		/*$obj = new stdClass();
-		$obj->enumType = 'com.common.auth.User$UserStatus';
-		$obj->name = 'JOIN';
-		$data['UserStatus'] = $obj;
-		$data['phoneLock'] = false;*/
+		$data['username'] = $this->request['username'];
 
-		//$ip = "'" . $_SERVER['REMOTE_ADDR'];
-		/*if ($_SERVER['HTTP_X_FORWARDED_FOR'])
-			$ip .= ',' . $_SERVER['HTTP_X_FORWARDED_FOR'];*/
-
-		//$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
-		
 		return $this->response($data, 201);
 	}
 }
