@@ -140,25 +140,25 @@ class teraController extends Controller
 			default => '0|2800,0'
 		};
 		
-		$data['VipitemInfo'] = false;
+		/*$data['VipitemInfo'] = false;
 		$data['msg'] = 'success';
 		$data['FailureCount'] = 0;
 		$data['PassitemInfo'] = false;
 		$data['ReturnCode'] = 0;
 		$data['Return'] = !$data['ReturnCode'];
 		$data['CharacterCount'] = $characterCount . '|';
-		$data['Permission'] = $accountInfo['isBlocked'];
+		$data['Permission'] = $accountInfo['isBlocked'];*/
 		$data['token'] = $newAuthKey;
 		$data['id'] = $accountInfo['accountDBID'];
 		$data['username'] = $this->request['userID'];
 		
-		$obj = new stdClass();
+		/*$obj = new stdClass();
 		$obj->enumType = 'com.common.auth.User$UserStatus';
 		$obj->name = 'JOIN';
 		$data['UserStatus'] = $obj;
-		$data['phoneLock'] = false;
+		$data['phoneLock'] = false;*/
 		
-		$state = $this->response($data);
+		$state = $this->response($data, 201);
 		
 		$ip = "'" . $_SERVER['REMOTE_ADDR'];
 		if ($_SERVER['HTTP_X_FORWARDED_FOR'])
