@@ -111,7 +111,7 @@ class teraController extends Controller
 		}
 
 		$data['token'] = $newAuthKey;
-		$data['id'] = $accountInfo['accountDBID'];
+		$data['id'] = intval($accountInfo['accountDBID']);
 		$data['username'] = $this->request['username'];
 
 		return $this->response($data, 201);
