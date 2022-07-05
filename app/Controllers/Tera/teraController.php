@@ -125,6 +125,7 @@ class teraController extends Controller
 		}
 		
 		$newAuthKey = uniqid(more_entropy: true);
+		$newAuthKey = str_replace('.', '-', $newAuthKey);
 		$authKeySuccess = $user->updateAuthKey($this->request['userID'], $newAuthKey);
 		
 		if (!$authKeySuccess) {
