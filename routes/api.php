@@ -6,7 +6,7 @@ use Core\Routes;
  * Client
  */
 Routes::post('/tera/LauncherLoginAction', 'Tera\\teraController@login');
-Routes::post('/tera/GetAccountInfoByUserNo', 'Tera\\teraController@getAccountInfoByUserNo');
+Routes::get('/tera/GetAccountInfoByUserNo', 'Tera\\teraController@getAccountInfoByUserNo');
 Routes::post('/authApi/GameAuthenticationLogin','authApi\\GameLoginController@login');
 Routes::post('/api/GetUserInfo', 'Api\\getUserInfoController@info');
 Routes::post('/api/EnterGame', 'Api\\UserServerInteraction@EnterGame');

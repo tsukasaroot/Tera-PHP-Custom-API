@@ -10,15 +10,17 @@ class teraController extends Controller
 {
 	public function getAccountInfoByUserNo(): bool
 	{
-		if (!isset($this->request['id'])) {
+		/*if (!isset($this->request['id'])) {
 			$data['returnCode'] = 2;
 			$data['msg'] = "ID error";
 			return $this->response($data);
-		}
-		
+		}*/
+
+		$auth = $_SERVER['Authorization'];
+		$auth = str_replace('Bearer ', '', $auth);
 		$user = new Users();
 		
-		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'accountDBID', $this->request['id']);
+		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'authKey', $auth);
 		
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
