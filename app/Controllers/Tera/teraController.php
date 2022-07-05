@@ -161,11 +161,11 @@ class teraController extends Controller
 		
 		$state = $this->response($data, 201);
 		
-		$ip = "'" . $_SERVER['REMOTE_ADDR'];
+		//$ip = "'" . $_SERVER['REMOTE_ADDR'];
 		/*if ($_SERVER['HTTP_X_FORWARDED_FOR'])
 			$ip .= ',' . $_SERVER['HTTP_X_FORWARDED_FOR'];*/
 
-		$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
+		//$user->updateData(['lastLoginIP' => $ip . "'"], $data['UserNo']);
 		
 		return $state;
 	}
