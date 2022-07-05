@@ -22,7 +22,6 @@ class teraController extends Controller
 		$user = new Users();
 		
 		$accountInfo = $user->getUserInfo(['charCount, isBlocked'], 'authKey', $auth);
-		echo $auth;
 		if (!$accountInfo) {
 			$data['msg'] = "Account doesn't exist";
 			$data['ReturnCode'] = 50000;
