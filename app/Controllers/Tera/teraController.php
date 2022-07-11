@@ -40,8 +40,7 @@ class teraController extends Controller
 	
 	public function register(): bool
 	{
-		if (!isset($this->request['r']) || $this->request['r'] !== '478c98a0b14387f3966ebeec6b570348fffac684b96f1d2e48d0caa51b4b4adb'
-			|| empty($this->request['userID']) || empty($this->request['password'])) {
+		if (empty($this->request['username']) || empty($this->request['password']) || empty($this->request['email'])) {
 			$data['ReturnCode'] = 58007;
 			$data['Return'] = !$data['ReturnCode'];
 			$data['msg'] = 'LauncherLoginAction got a parameter error';
@@ -55,11 +54,12 @@ class teraController extends Controller
 		$pass_sha512 = hash('sha512', $pwd_salt);
 		
 		$state = $user->createUser([
-			'userName' => $this->request['userID'],
+			'userName' => $this->request['username'],
 			'passWord' => $pass_sha512
 		], 'userName,passWord');
-		
-		return $this->login();
+
+		return $this->response(['msg' => 'Registration successfully completed']);
+		//return $this->login();
 	}
 	
 	public function login(): bool
