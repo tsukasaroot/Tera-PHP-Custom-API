@@ -9,8 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "ext-mysqli": "*",
-      "ext-memcache": "*"
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
