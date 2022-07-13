@@ -17,6 +17,7 @@ Routes::post('/user/register', 'Tera\\teraController@register');
  */
 Routes::get('/api/ServiceTest', 'Arbiter\\ArbiterApi@ServiceTest');
 Routes::get('/systemApi/RequestAPIServerStatusAvailable', 'Arbiter\\SystemApi@status');
+Routes::get('/api/systemApi/RequestAPIServerStatusAvailable', 'Arbiter\\SystemApi@status');
 Routes::post('/api/GetServerPermission', 'Arbiter\\ArbiterApi@GetServerPermission');
 Routes::post('/api/ServerDown', 'Arbiter\\ArbiterApi@ServerDown');
 Routes::post('/api/CreateChar', 'Arbiter\\ArbiterApi@CreateChar');
